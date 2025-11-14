@@ -1,0 +1,499 @@
+---
+title: "Benchmark - Bibliotecas de importação de dados"
+format: html
+editor: visual
+---
+
+```{r}
+#| warning: true
+#| include: false
+library(readr) # read_csv
+library(arrow) # parquet
+library(JuliaCall) # usar julia dentro do R
+library(ggplot2)
+library(dplyr)
+
+library(reticulate)
+```
+
+```{r}
+#| eval: false
+#| include: false
+reticulate::py_install('polars')
+reticulate::py_install('pandas')
+reticulate::py_install('plotnine')
+reticulate::py_install('matplotlib')
+```
+
+```{python}
+import pandas as pd
+import polars as pl
+import matplotlib.pyplot as plt
+import os
+import time
+import numpy as np
+```
+
+```{r}
+# Monitor de memória RAM em R
+iniciar_monitor <- function(nome_arquivo, intervalo = 0.1) {
+  arquivo_csv <- paste0(nome_arquivo, ".csv")
+  
+  # Comando Python: arquivo primeiro, intervalo depois
+  python_cmd <- ifelse(.Platform$OS.type == "windows", "python", "python3")
+  comando <- paste(python_cmd, "monitor_ram.py", arquivo_csv, intervalo)
+  
+  # Iniciar em background
+  if (.Platform$OS.type == "windows") {
+    shell(paste("start /B", comando), wait = FALSE)
+  } else {
+    system(paste(comando, "&"), wait = FALSE)
+  }
+  
+  Sys.sleep(2)
+  return(arquivo_csv)
+}
+
+parar_monitor <- function() {
+  if (file.exists("monitor_pid.txt")) {
+    pid <- trimws(readLines("monitor_pid.txt", warn = FALSE)[1])
+    
+    if (.Platform$OS.type == "windows") {
+      system(paste("taskkill /F /PID", pid), 
+             ignore.stdout = TRUE, show.output.on.console = FALSE)
+    } else {
+      system(paste("kill -9", pid), ignore.stdout = TRUE)
+    }
+  }
+  
+  Sys.sleep(1)
+}
+```
+
+```{python}
+def iniciar_monitor(nome_arquivo, intervalo=0.1):
+    arquivo_csv = f"{nome_arquivo}.csv"
+    
+    dir_name = os.path.dirname(arquivo_csv)
+    if dir_name and not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    
+    # Usar os.system para evitar problemas com subprocess no reticulate
+    comando = f"python monitor_ram.py {arquivo_csv} {intervalo}"
+    
+    if os.name == 'nt':  # Windows
+        os.system(f'start /B {comando}')
+    else:  # Linux/Mac
+        os.system(f'{comando} &')
+    
+    time.sleep(2)
+    
+    if not os.path.exists(arquivo_csv):
+        raise Exception("Erro: CSV não foi criado")
+    
+    print(f"Monitor iniciado: {arquivo_csv}")
+    return arquivo_csv
+
+def parar_monitor():
+    if os.path.exists("monitor_pid.txt"):
+        with open("monitor_pid.txt", "r") as f:
+            pid = f.read().strip()
+        
+        if os.name == 'nt':  # Windows
+            os.system(f'taskkill /F /PID {pid} >nul 2>&1')
+        else:  # Linux/Mac
+            os.system(f'kill -9 {pid} 2>/dev/null')
+    
+    time.sleep(1)
+    if os.path.exists("monitor_pid.txt"):
+        os.remove("monitor_pid.txt")
+    
+    print("Monitor parado")
+```
+
+```{python}
+def benchmark_leitura(nome_saida, arquivo_ler, funcao_leitura, **kwargs):
+    """
+    Executa benchmark de leitura de CSV com monitoramento de RAM
+    
+    Args:
+        nome_saida: Nome do arquivo de saída (sem .csv)
+        arquivo_ler: Caminho do CSV para ler
+        funcao_leitura: Função de leitura (ex: pd.read_csv, pl.read_csv)
+        **kwargs: Argumentos extras para a função de leitura
+    """
+    # Iniciar monitor
+    arquivo_csv = iniciar_monitor(f"resultados/{nome_saida}")
+    
+    # Medir tempo de execução
+    inicio = time.time()
+    dados = funcao_leitura(arquivo_ler, **kwargs)
+    fim = time.time()
+    
+    # Parar monitor
+    parar_monitor()
+    
+    # Calcular tempo total (garantir que são números)
+    tempo_total_s = float(fim - inicio)
+    tempo_total_min = tempo_total_s / 60
+    
+    # Adicionar linha de tempo total no CSV
+    with open(arquivo_csv, 'a') as f:
+        f.write(f"# TEMPO_TOTAL_SEGUNDOS: {tempo_total_s:.2f}\n")
+        f.write(f"# TEMPO_TOTAL_MINUTOS: {tempo_total_min:.2f}\n")
+    
+    # Imprimir resultado
+    print("\n=== Benchmark Concluído ===")
+    print(f"Arquivo salvo: {arquivo_csv}")
+    print(f"Tempo de execução: {tempo_total_s:.2f}s ({tempo_total_min:.2f} min)")
+    
+    # Número de linhas (funciona com pandas e polars)
+    try:
+        n_linhas = len(dados)
+        print(f"Linhas lidas: {n_linhas:,}")
+    except:
+        pass
+    
+    print()
+    
+    return dados
+
+
+```
+
+```{r}
+# Benchmark para leitura em R 
+
+benchmark_leitura <- function(nome_saida, arquivo_ler, funcao_leitura, ...) {
+  # Iniciar monitor
+  arquivo_csv <- paste0("resultados/", nome_saida, ".csv")
+  iniciar_monitor(paste0("resultados/", nome_saida))
+  
+  # Medir tempo de execução
+  inicio <- Sys.time()
+  dados <- funcao_leitura(arquivo_ler, ...)
+  fim <- Sys.time()
+  
+  # Parar monitor
+  parar_monitor()
+  
+  # Calcular tempo total
+  tempo_total_s <- as.numeric(difftime(fim, inicio, units = "secs"))
+  tempo_total_min <- tempo_total_s / 60
+  
+  # Adicionar linha de tempo total no CSV
+  cat(sprintf("# TEMPO_TOTAL_SEGUNDOS: %.2f\n", tempo_total_s), 
+      file = arquivo_csv, append = TRUE)
+  cat(sprintf("# TEMPO_TOTAL_MINUTOS: %.2f\n", tempo_total_min), 
+      file = arquivo_csv, append = TRUE)
+  
+  # Imprimir resultado
+  cat("\n=== Benchmark Concluído ===\n")
+  cat("Arquivo salvo:", arquivo_csv, "\n")
+  cat("Tempo de execução:", tempo_total_s, "segundos (", tempo_total_min, "minutos)\n")
+  cat("Linhas lidas:", nrow(dados), "\n\n")
+  
+  return(invisible(dados))
+}
+```
+
+```{python}
+def benchmark_leitura(nome_saida, arquivo_ler, funcao_leitura, **kwargs):
+    """
+    Executa benchmark de leitura de CSV com monitoramento de RAM
+    
+    Args:
+        nome_saida: Nome do arquivo de saída (sem .csv)
+        arquivo_ler: Caminho do CSV para ler
+        funcao_leitura: Função de leitura (ex: pd.read_csv, pl.read_csv)
+        **kwargs: Argumentos extras para a função de leitura
+    """
+    # Iniciar monitor
+    arquivo_csv = iniciar_monitor(f"resultados/{nome_saida}")
+    
+    # Medir tempo de execução
+    inicio = time.time()
+    dados = funcao_leitura(arquivo_ler, **kwargs)
+    fim = time.time()
+    
+    # Parar monitor
+    parar_monitor()
+    
+    # Calcular tempo total (garantir que são números)
+    tempo_total_s = float(fim - inicio)
+    tempo_total_min = tempo_total_s / 60
+    
+    # Adicionar linha de tempo total no CSV
+    with open(arquivo_csv, 'a') as f:
+        f.write(f"# TEMPO_TOTAL_SEGUNDOS: {tempo_total_s:.2f}\n")
+        f.write(f"# TEMPO_TOTAL_MINUTOS: {tempo_total_min:.2f}\n")
+    
+    # Imprimir resultado
+    print("\n=== Benchmark Concluído ===")
+    print(f"Arquivo salvo: {arquivo_csv}")
+    print(f"Tempo de execução: {tempo_total_s:.2f}s ({tempo_total_min:.2f} min)")
+    
+    # Número de linhas (funciona com pandas e polars)
+    try:
+        n_linhas = len(dados)
+        print(f"Linhas lidas: {n_linhas:,}")
+    except:
+        pass
+    
+    print()
+    
+    return dados
+```
+
+```{python}
+def plotar_memoria(arquivo_csv):
+    dados = pd.read_csv(arquivo_csv)
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(dados["tempo_s"], dados["memoria_gb"])
+    plt.xlabel("Tempo (s)")
+    plt.ylabel("Memória (GB)")
+    plt.title(f"Uso de RAM - Min: {dados['memoria_gb'].min():.2f}GB | Max: {dados['memoria_gb'].max():.2f}GB")
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+
+```
+
+```{r}
+ler_csv_base <- function(arquivo) {
+  read.csv(arquivo)
+}
+
+ler_csv_sem_inferencia_base <- function(arquivo, tipos) {
+  read.csv(arquivo, colClasses = tipos)
+}
+
+ler_csv_colunas <- function(arquivo, colunas) {
+  read.csv(arquivo)[, colunas]
+}
+
+# a base já faz tudo errado, então meio que nem contar (nessa parte de colunas)
+#
+#Exemplo de uso:
+
+#dados <- ler_csv("arquivo.csv")
+
+#tipos <- c("integer", "character", "numeric", "integer", "numeric")
+#dados <- ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+#tipos_nomeados <- c(
+#  VendorID = "integer",
+#  store_and_fwd_flag = "character",
+#  passenger_count = "integer",
+#  trip_distance = "numeric",
+#  fare_amount = "numeric"
+#)
+#dados <- ler_csv_sem_inferencia("arquivo.csv", tipos_nomeados)
+```
+
+```{r}
+# Funções para teste em R (readr)
+
+ler_csv_readr <- function(arquivo) {
+  read_csv(arquivo)
+}
+
+ler_csv_sem_inferencia_readr <- function(arquivo, tipos) {
+  read_csv(arquivo, col_types = tipos)
+}
+
+ler_csv_colunas_readr <- function(arquivo, colunas) {
+  read_csv(arquivo, col_select = all_of(colunas))
+}
+
+# tipos deve ter o formato - tipos <- "iDDiddciiiidddddd"
+```
+
+```{python}
+# Funções para o Benchmark em Pandas
+
+def ler_csv_pd(arquivo):
+    return pd.read_csv(arquivo)
+
+def ler_csv_sem_inferencia_pd(arquivo, tipos):
+    return pd.read_csv(arquivo, dtype=tipos)
+
+def ler_csv_colunas_pd(arquivo, colunas):
+    return pd.read_csv(arquivo, usecols=colunas)
+```
+
+Exemplo de uso:
+
+dados = ler_csv("arquivo.csv")
+
+tipos = { 'VendorID': 'int32', 'passenger_count': 'int32', 'trip_distance': 'float64', 'fare_amount': 'float64' } dados = ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+-   colocar uma lista de colunas
+
+```{python}
+# Funções para o Benchmark em Polars
+
+def ler_csv_pl(arquivo): # lembrar dessa limitaçã para colocar no relatório
+    return pl.read_csv(arquivo, infer_schema_length = 10000)
+
+def ler_csv_sem_inferencia_pl(arquivo, tipos):
+    return pl.read_csv(arquivo, schema=tipos)
+  
+def ler_csv_colunas_pl(arquivo, colunas):
+    return pd.read_csv(arquivo, usecols=colunas)
+```
+
+Exemplo de uso:
+
+dados = ler_csv("arquivo.csv")
+
+tipos = { 'VendorID': pl.Int32, 'passenger_count': pl.Int32, 'trip_distance': pl.Float64, 'fare_amount': pl.Float64 } dados = ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+-   para o a função ler_csv_colunas(arquivo, colunas) passar uma lista para as colunas """
+
+```{r}
+benchmark_leitura("yellowlong_teste2_readr_seminf", "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",ler_csv_sem_inferencia_readr, tipos = "iDDiddciiiidddddd")
+```
+
+```{python}
+def pegar_metadados(caminho_template, inicio=1, fim=6):
+    dados = []
+    for i in range(inicio, fim):
+        arquivo = caminho_template.format(i=i)
+        with open(arquivo, 'r') as f:
+            temp = {'teste': i}
+            for linha in f:
+                if 'TEMPO_TOTAL_SEGUNDOS' in linha:
+                    temp['tempo_total_s'] = float(linha.split(': ')[1])
+                elif 'TEMPO_TOTAL_MINUTOS' in linha:
+                    temp['tempo_total_m'] = float(linha.split(': ')[1])
+            dados.append(temp)
+    return pd.DataFrame(dados)
+
+# Usar assim:
+#df = pegar_metadados('resultados/yellowlong_teste{i}_readr.csv')
+```
+
+```{python}
+def criar_df_benchmark():
+    """Cria DataFrame vazio para armazenar resultados de benchmark"""
+    colunas = [
+        'biblioteca',
+        'nome_dataset', 
+        'tempo_medio_s',
+        'tempo_mediano_s',
+        'tempo_min_s',
+        'tempo_max_s',
+        'desvio_padrao_s',
+        'coef_variacao_pct',
+        'q1_s',
+        'q3_s',
+        'iqr_s',
+        'outliers_detectados'
+    ]
+    return pd.DataFrame(columns=colunas)
+```
+
+```{python}
+
+def calcular_estatisticas(df_benchmark, biblioteca, nome_dataset):
+    """
+    Calcula estatísticas descritivas de benchmark
+    
+    Parâmetros:
+    - df_benchmark: DataFrame com colunas teste, tempo_total_s, tempo_total_m
+    - biblioteca: nome da biblioteca testada (ex: 'pandas', 'polars')
+    - nome_dataset: nome do dataset (ex: 'yellowlong')
+    
+    Retorna:
+    - Series com estatísticas descritivas
+    """
+    
+    tempos = df_benchmark['tempo_total_s'].values
+    
+    # Estatísticas descritivas
+    media = np.mean(tempos)
+    mediana = np.median(tempos)
+    desvio = np.std(tempos, ddof=1)
+    
+    # Coeficiente de variação (%)
+    cv = (desvio / media) * 100 if media != 0 else 0
+    
+    # Quartis e IQR
+    q1 = np.percentile(tempos, 25)
+    q3 = np.percentile(tempos, 75)
+    iqr = q3 - q1
+    
+    # Detecção de outliers (método IQR)
+    limite_inf = q1 - 1.5 * iqr
+    limite_sup = q3 + 1.5 * iqr
+    outliers = np.sum((tempos < limite_inf) | (tempos > limite_sup))
+    
+    return pd.Series({
+        'biblioteca': biblioteca,
+        'nome_dataset': nome_dataset,
+        'n_testes': len(tempos),
+        'tempo_medio_s': round(media, 4),
+        'tempo_mediano_s': round(mediana, 4),
+        'tempo_min_s': round(np.min(tempos), 4),
+        'tempo_max_s': round(np.max(tempos), 4),
+        'desvio_padrao_s': round(desvio, 4),
+        'coef_variacao_pct': round(cv, 2),
+        'q1_s': round(q1, 4),
+        'q3_s': round(q3, 4),
+        'iqr_s': round(iqr, 4),
+        'outliers_detectados': int(outliers)
+    })
+```
+
+```{python}
+calcular_estatisticas(df, "readr", "yellowlong")
+```
+
+# A partir daqui, estarão todas as funções prontas já para testes.
+
+-   Readr sem argumentos adicionais.
+
+-   Readr sem inferência de tipos de colunas.
+
+## 1° - Testes com Readr
+
+```{r}
+# Função para testar o Readr inferindo os tipos de colunas.
+
+benchmark_leitura("yellowlong_testex_readr", "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",ler_csv_readr)
+```
+
+```{r}
+# Função para testar o Readr sem inferir os tipos de colunas.
+
+benchmark_leitura("yellowlong_testex_readr_seminf", "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",ler_csv_sem_inferencia_readr, tipos = "iDDiddciiiidddddd")
+```
+
+```{r}
+# Ignorando colunas
+# 8 de 19 colunas.
+colunas_selecionadas <- c(
+  "VendorID",
+  "tpep_pickup_datetime",
+  "tpep_dropoff_datetime",
+  "passenger_count",
+  "trip_distance",
+  "fare_amount",
+  "tip_amount",
+  "total_amount"
+)
+
+benchmark_leitura(
+  "yellowlong_testex_readr_ignorando", 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+  function(arq) ler_csv_colunas_readr(arq, colunas_selecionadas)
+)
+```
+
+## 2° Base do R
+
+```{r}
+
+```
