@@ -88,4 +88,4 @@ Resultados Principais (Resumo)
 
     Memória: Em datasets >1GB, todas as bibliotecas saturaram os 16GB de RAM, evidenciando a necessidade de estratégias como Lazy Evaluation ou Chunking para máquinas locais.
 
-    Desenvolvido por Diego Pires, Henry Koiti Honda e Joaquim Bertoldi Nucci
+ Desenvolvido por Diego Pires, Henry Koiti Honda e Joaquim Bertoldi Nucci
