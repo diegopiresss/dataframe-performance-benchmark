@@ -22,6 +22,7 @@ Para reproduzir os testes, organize seus arquivos da seguinte forma:
 ├── monitor_ram.py               # Script auxiliar para monitoramento de recursos em tempo real
 ├── MASTER_BENCHMARK_DATA.csv    # Tabela consolidada com todos os resultados finais
 └── README.md
+```
 
 Dados (Download Necessário)
 
@@ -75,7 +76,7 @@ Hardware de Teste:
 
     RAM: 16 GB (Limite físico intencional)
 
-    Armazenamento: SSD NVMe
+    Armazenamento: SSD NVMe 500gb
 
 Resultados Principais (Resumo)
 
