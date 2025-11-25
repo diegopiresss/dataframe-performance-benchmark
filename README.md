@@ -1,3 +1,18 @@
+
+## Observações iniciais para avaliação do Professor Trucios da disciplina ME315.
+
+1- Esse READ.me tem todas as informações necessárias para utilização dos códigos.
+2- O trabalho foi dividido em 3 partes e qmd's:
+    - codigo_transformar_dados: utilizado somente para transformar os dados de csv para parquet para a leitura posterior.
+    - codigo_trabalho: onde os testes foram rodados propriamente ditos, me aproveitei da estrutura de chunks já que poderia rodar chunks específicos em uma ordem específica. Ele provavelmente não vai rodar de primeira e se rodar irá demorar MUITO dependendo do computador (for loops lendo datasets de 30gb 10 vezes).
+
+3- ONDE OLHAR O RESULTADO FINAL? Entrar no arquivo analise_benchmark.qmd ou analise_benchmark.htlm em que foi feita a análise de todas as amostras geradas em codigo_trabalho.
+
+Estruturamos dessa forma para maior facilidade tanto da execução dos testes tanto para a correção posteriormente.
+
+4- Abaixo tem o link do drive que leva direto para os datasets (tanto csv quanto parquet)
+
+
 # 📊 Benchmark de Processamento de Dados: Pandas vs. Polars vs. R
 
 Este repositório contém os códigos e resultados de um estudo comparativo de performance entre as principais bibliotecas de manipulação de dados em Python e R. O objetivo é analisar velocidade de leitura, consumo de memória RAM e eficiência de armazenamento (CSV vs. Parquet) em um ambiente local (notebook).
@@ -21,6 +36,7 @@ Para reproduzir os testes, organize seus arquivos da seguinte forma:
 ├── codigo_trabalho.qmd          # Script principal que executa os benchmarks
 ├── monitor_ram.py               # Script auxiliar para monitoramento de recursos em tempo real
 ├── MASTER_BENCHMARK_DATA.csv    # Tabela consolidada com todos os resultados finais
+├── analise_benchmark.qmd        # Contém a análise final e o relatório final das análises feitas
 └── README.md
 ```
 
