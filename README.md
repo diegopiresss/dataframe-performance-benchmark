@@ -2,6 +2,7 @@
 ## Observações iniciais para avaliação do Professor Trucios da disciplina ME315.
 
 1- Esse READ.me tem todas as informações necessárias para utilização dos códigos.
+
 2- O trabalho foi dividido em 3 partes e qmd's:
     - codigo_transformar_dados: utilizado somente para transformar os dados de csv para parquet para a leitura posterior.
     - codigo_trabalho: onde os testes foram rodados propriamente ditos, me aproveitei da estrutura de chunks já que poderia rodar chunks específicos em uma ordem específica. Ele provavelmente não vai rodar de primeira e se rodar irá demorar MUITO dependendo do computador (for loops lendo datasets de 30gb 10 vezes).
