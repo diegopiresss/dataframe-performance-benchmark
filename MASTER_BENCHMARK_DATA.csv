@@ -1,0 +1,339 @@
+Cenario,Dataset,Biblioteca,Formato,Pasta_Original,Iteracao,Tempo_Segundos,RAM_Pico_GB,RAM_Media_GB,Arquivo
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,0,277.71,15.709,14.586039971191934,gigayellow_teste0_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,10,209.07,15.71,13.978542461832062,gigayellow_teste10_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,1,191.46,15.708,13.83531285788652,gigayellow_teste1_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,2,198.14,15.71,13.924695915279878,gigayellow_teste2_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,3,208.78,15.71,14.212570129248444,gigayellow_teste3_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,4,240.74,15.71,14.096449979244499,gigayellow_teste4_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,5,205.7,15.71,13.742476699029126,gigayellow_teste5_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,6,201.72,15.71,13.705527695351138,gigayellow_teste6_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,7,195.96,15.71,13.914235743380855,gigayellow_teste7_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,8,197.31,15.71,14.320802731411229,gigayellow_teste8_baser.csv
+1_Leitura_Pura,Giga_Yellow,R_Base,CSV,A1_gigayellow_teste_baser,9,196.06,15.71,13.885176081424936,gigayellow_teste9_baser.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,0,156.8,15.709,14.036960734642179,gigayellow_teste0_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,10,223.42,15.709,14.57243010752688,gigayellow_teste10_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,1,177.11,15.709,14.69797692740574,gigayellow_teste1_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,2,190.43,15.709,14.474330366492145,gigayellow_teste2_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,3,199.46,15.707,14.478164829659317,gigayellow_teste3_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,4,210.17,15.71,14.75805719733079,gigayellow_teste4_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,5,202.37,15.709,14.646379072063178,gigayellow_teste5_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,6,200.64,15.71,14.575545908183633,gigayellow_teste6_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,7,207.06,15.71,14.649528247223564,gigayellow_teste7_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,8,221.62,15.709,14.680684782608695,gigayellow_teste8_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,CSV,A1_gigayellow_teste_pandas,9,230.63,15.709,14.627101783384077,gigayellow_teste9_pandas.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,0,10.99,15.244,11.17531818181818,gigayellow_teste0_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,10,11.68,15.707,14.948934782608696,gigayellow_teste10_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,1,11.65,15.686,15.199870503597124,gigayellow_teste1_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,2,13.74,15.71,15.372423312883436,gigayellow_teste2_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,3,11.41,15.537,14.88645588235294,gigayellow_teste3_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,4,14.29,15.71,15.332699386503071,gigayellow_teste4_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,5,11.04,15.551,14.764117647058825,gigayellow_teste5_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,6,13.34,15.709,15.276567741935487,gigayellow_teste6_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,7,11.48,15.703,14.756338235294118,gigayellow_teste7_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,8,11.93,15.496,14.966205673758866,gigayellow_teste8_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Pandas,Parquet,A1_gigayellow_teste_pandas_parquet,9,12.16,15.708,15.265482517482518,gigayellow_teste9_pandas_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),10,56.17,15.71,15.589223214285715,gigayellow_teste10_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),1,28.84,15.71,12.841523963034602,gigayellow_teste1_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),2,47.29,15.71,15.48649173553719,gigayellow_teste2_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),3,50.61,15.71,15.508105263157896,gigayellow_teste3_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),4,54.53,15.71,15.53661384335155,gigayellow_teste4_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),5,51.26,15.71,15.52004214559387,gigayellow_teste5_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),6,55.11,15.71,15.527789285714288,gigayellow_teste6_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),7,55.39,15.71,15.539079136690646,gigayellow_teste7_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),8,57.64,15.71,15.533750433275564,gigayellow_teste8_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,CSV,A1_gigayellow_teste_polars (Pronto),9,55.45,15.71,15.544682795698927,gigayellow_teste9_polars.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,0,7.64,15.71,15.142656250000002,gigayellow_teste0_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,10,10.6,15.71,15.275496000000002,gigayellow_teste10_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,1,7.96,15.71,15.144762376237624,gigayellow_teste1_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,2,7.39,15.71,14.89448421052632,gigayellow_teste2_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,3,10.56,15.71,15.239255999999997,gigayellow_teste3_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,4,9.66,15.71,15.185709401709403,gigayellow_teste4_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,5,9.85,15.71,15.202201680672268,gigayellow_teste5_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,6,10.19,15.71,15.247754098360655,gigayellow_teste6_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,7,10.02,15.71,15.26115966386555,gigayellow_teste7_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,8,9.46,15.71,15.178452173913044,gigayellow_teste8_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,Polars,Parquet,A1_gigayellow_teste_polars_parquet,9,10.19,15.71,15.241652892561984,gigayellow_teste9_polars_parquet.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),10,9.48,15.71,13.98535042735043,gigayellow_teste10_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),11,8.13,15.629,13.718145631067962,gigayellow_teste11_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),1,9.74,15.603,14.449452991452993,gigayellow_teste1_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),2,7.44,15.694,13.905505263157892,gigayellow_teste2_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),3,9.31,15.552,14.347964601769911,gigayellow_teste3_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),4,9.43,15.71,14.12,gigayellow_teste4_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),5,8.41,15.61,13.720638095238096,gigayellow_teste5_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),6,7.36,15.705,13.216526315789473,gigayellow_teste6_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),7,7.85,15.486,13.94266666666667,gigayellow_teste7_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),8,7.31,15.696,13.298096774193546,gigayellow_teste8_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),9,8.03,15.617,13.699623762376238,gigayellow_teste9_readr.csv
+1_Leitura_Pura,Giga_Yellow,R_Readr,Parquet,A1_gigayellow_teste_readr_parquet (Pronto),-1,8.99,15.543,11.302252252252256,gigayellow_testeFRIO_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),10,2.14,13.775,13.651095238095238,stackoverflow_teste10_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),1,2.02,13.604,13.360000000000003,stackoverflow_teste1_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),2,2.0,13.929,13.662268292682924,stackoverflow_teste2_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),3,2.13,14.1,13.963904761904761,stackoverflow_teste3_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),4,2.09,14.048,14.01540476190476,stackoverflow_teste4_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),5,2.11,14.082,13.682523809523808,stackoverflow_teste5_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),6,2.12,13.666,13.61725581395349,stackoverflow_teste6_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),7,2.01,13.662,13.604341463414638,stackoverflow_teste7_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),8,2.06,13.691,13.645857142857142,stackoverflow_teste8_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,CSV,A1_stackoverflow_teste_baser (Pronto),9,2.07,13.784,13.723238095238097,stackoverflow_teste9_baser.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),10,0.17,9.483,9.288818181818185,stackoverflow_teste10_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),1,0.42,13.56,12.448296296296295,stackoverflow_teste1_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),2,0.18,8.737,8.620391304347825,stackoverflow_teste2_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),3,0.17,8.942,8.760391304347825,stackoverflow_teste3_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),4,0.19,9.155,8.959347826086956,stackoverflow_teste4_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),5,0.17,9.403,9.20286956521739,stackoverflow_teste5_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),6,0.23,9.536,9.375434782608695,stackoverflow_teste6_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),7,0.18,9.542,9.484782608695651,stackoverflow_teste7_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),8,0.18,9.23,9.19186956521739,stackoverflow_teste8_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Base,Parquet,A1_stackoverflow_teste_baser_parquet (Pronto),9,0.18,9.272,9.241347826086956,stackoverflow_teste9_baser_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),0,1.07,9.101,9.004375,stackoverflow_teste0_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),10,1.07,9.072,8.970636363636363,stackoverflow_teste10_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),1,1.05,9.262,9.1061875,stackoverflow_teste1_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),2,1.04,9.182,9.064290322580646,stackoverflow_teste2_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),3,1.03,9.205,9.059516129032259,stackoverflow_teste3_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),4,1.07,9.125,9.0495625,stackoverflow_teste4_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),5,1.08,9.075,9.0078125,stackoverflow_teste5_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),6,1.07,9.031,8.950606060606061,stackoverflow_teste6_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),7,1.08,9.012,8.945218749999999,stackoverflow_teste7_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),8,1.03,9.152,8.965812499999998,stackoverflow_teste8_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,CSV,A1_stackoverflow_teste_pandas (Pronto),9,1.07,9.01,8.9528125,stackoverflow_teste9_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,0,0.16,10.916,10.813676089517077,stackoverflow_teste0_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,10,0.13,10.82,10.760590909090908,stackoverflow_teste10_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,1,0.13,10.789,10.69717391304348,stackoverflow_teste1_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,2,0.13,10.796,10.71882608695652,stackoverflow_teste2_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,3,0.12,10.795,10.717565217391302,stackoverflow_teste3_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,4,0.13,10.794,10.738608695652173,stackoverflow_teste4_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,5,0.13,10.792,10.737521739130436,stackoverflow_teste5_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,6,0.13,10.793,10.73782608695652,stackoverflow_teste6_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,7,0.12,10.795,10.740681818181818,stackoverflow_teste7_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,8,0.13,10.816,10.750304347826088,stackoverflow_teste8_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Pandas,Parquet,A1_stackoverflow_teste_pandas_parquet,9,0.12,10.812,10.7565,stackoverflow_teste9_pandas.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),0,0.69,13.773,13.33096551724138,stackoverflow_teste0_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),10,0.47,13.405,13.324384615384615,stackoverflow_teste10_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),1,0.49,14.066,13.692269230769229,stackoverflow_teste1_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),2,0.47,14.107,13.991615384615386,stackoverflow_teste2_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),3,0.48,14.045,13.526384615384616,stackoverflow_teste3_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),4,0.47,13.478,13.362653846153846,stackoverflow_teste4_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),5,0.47,13.482,13.364115384615387,stackoverflow_teste5_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),6,0.47,13.509,13.384384615384615,stackoverflow_teste6_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),7,0.48,13.513,13.39096153846154,stackoverflow_teste7_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),8,0.47,13.536,13.405999999999999,stackoverflow_teste8_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,CSV,A1_stackoverflow_teste_polars (pronto),9,0.47,13.523,13.408500000000002,stackoverflow_teste9_polars.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),0,0.07,13.859,13.683958637469587,stackoverflow_teste0_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),10,0.07,13.861,13.802545454545452,stackoverflow_teste10_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),1,0.05,13.567,13.531136363636366,stackoverflow_teste1_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),2,0.05,13.608,13.567363636363636,stackoverflow_teste2_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),3,0.06,13.65,13.609454545454543,stackoverflow_teste3_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),4,0.05,13.691,13.66052380952381,stackoverflow_teste4_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),5,0.07,13.747,13.695954545454548,stackoverflow_teste5_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),6,0.05,13.763,13.738045454545453,stackoverflow_teste6_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),7,0.05,13.759,13.752809523809525,stackoverflow_teste7_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),8,0.04,13.776,13.751136363636368,stackoverflow_teste8_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,Polars,Parquet,A1_stackoverflow_teste_polars_parquet (pronto),9,0.06,13.794,13.75352380952381,stackoverflow_teste9_polars_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),10,1.41,8.758,8.60677142857143,stackoverflow_teste10_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),11,1.4,8.783,8.615742857142857,stackoverflow_teste11_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),1,1.65,9.286,9.108605263157894,stackoverflow_teste1_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),2,1.8,8.822,8.624641025641028,stackoverflow_teste2_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),3,1.95,8.655,8.534666666666668,stackoverflow_teste3_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),4,2.04,8.649,8.515512195121952,stackoverflow_teste4_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),5,1.95,8.712,8.516650000000002,stackoverflow_teste5_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),6,1.72,9.278,9.124026315789473,stackoverflow_teste6_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),7,1.38,9.354,9.202676470588234,stackoverflow_teste7_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),8,1.38,8.775,8.621771428571428,stackoverflow_teste8_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),9,1.4,8.762,8.617028571428571,stackoverflow_teste9_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,CSV,A1_stackoverflow_teste_readr (pronto),-1,2.05,9.47,9.182707317073172,stackoverflow_testeFRIO_readr.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),10,0.18,9.055,8.996130434782609,stackoverflow_teste10_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),1,0.21,10.495,9.265075036075036,stackoverflow_teste1_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),2,0.18,9.267,9.089391304347828,stackoverflow_teste2_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),3,0.18,9.448,9.277391304347825,stackoverflow_teste3_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),4,0.18,9.662,9.47139130434783,stackoverflow_teste4_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),5,0.18,9.874,9.68291304347826,stackoverflow_teste5_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),6,0.19,10.145,9.943695652173915,stackoverflow_teste6_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),7,0.22,10.301,10.115130434782609,stackoverflow_teste7_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),8,0.45,10.495,10.29224,stackoverflow_teste8_readr_parquet.csv
+1_Leitura_Pura,StackOverflow_Wide,R_Readr,Parquet,A1_stackoverflow_teste_readr_parquet (Pronto),9,0.19,9.536,9.461826086956522,stackoverflow_teste9_readr_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),0,15.1,8.622,8.197883040935672,yellowlong_teste0_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),10,13.06,8.982,8.642721854304638,yellowlong_teste10_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),1,13.33,8.742,8.416103896103895,yellowlong_teste1_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),2,13.76,9.012,8.730917721518988,yellowlong_teste2_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),3,12.93,8.862,8.524786666666666,yellowlong_teste3_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),4,13.4,8.821,8.540103896103895,yellowlong_teste4_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),5,13.32,8.927,8.566718954248367,yellowlong_teste5_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),6,12.9,8.913,8.61565100671141,yellowlong_teste6_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),7,12.82,8.85,8.634060810810812,yellowlong_teste7_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),8,13.19,8.884,8.558754966887417,yellowlong_teste8_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,CSV,A1_yellowlong_baser_csv (Pronto),9,13.48,8.839,8.526348387096775,yellowlong_teste9_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),10,0.63,14.039,13.689592592592593,yellowlong_teste10_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),1,0.53,9.638,9.127777777777776,yellowlong_teste1_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),2,0.48,10.226,9.77156,yellowlong_teste2_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),3,0.5,10.613,10.198192307692308,yellowlong_teste3_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),4,0.49,11.165,10.69496153846154,yellowlong_teste4_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),5,0.53,11.687,11.228884615384617,yellowlong_teste5_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),6,0.53,12.206,11.744884615384617,yellowlong_teste6_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),7,0.53,12.73,12.27962962962963,yellowlong_teste7_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),8,0.58,13.228,12.769444444444444,yellowlong_teste8_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,R_Base,Parquet,A1_yellowlong_baser_parquet (Pronto),9,0.55,13.691,13.240384615384615,yellowlong_teste9_parquet_base.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,0,0.99,13.689,12.936354838709681,yellowlong_teste0_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,10,0.9,14.296,14.047233333333336,yellowlong_teste10_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,1,0.95,14.317,13.458129032258064,yellowlong_teste1_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,2,0.91,14.299,13.859548387096774,yellowlong_teste2_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,3,0.9,14.466,14.006733333333335,yellowlong_teste3_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,4,0.89,14.33,14.17003333333333,yellowlong_teste4_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,5,0.91,14.464,14.167433333333333,yellowlong_teste5_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,6,0.9,14.317,14.154566666666666,yellowlong_teste6_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,7,0.9,14.365,14.0482,yellowlong_teste7_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,8,0.9,14.314,14.0879,yellowlong_teste8_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv,9,0.9,14.222,14.0702,yellowlong_teste9_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),0,0.19,10.832,9.83278260869565,yellowlong_teste0_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),10,0.19,11.96,11.79595652173913,yellowlong_teste10_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),1,0.22,11.626,10.655304347826087,yellowlong_teste1_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),2,0.18,12.003,11.44,yellowlong_teste2_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),3,0.18,12.188,11.726869565217392,yellowlong_teste3_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),4,0.17,12.245,11.873391304347825,yellowlong_teste4_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),5,0.18,12.115,11.958956521739132,yellowlong_teste5_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),6,0.19,12.157,11.932391304347822,yellowlong_teste6_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),7,0.19,12.226,11.91004347826087,yellowlong_teste7_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),8,0.2,12.134,11.880739130434785,yellowlong_teste8_polars.csv
+1_Leitura_Pura,Yellow_Long,Polars,CSV,A1_yellowlong_polars_csv (Pronto),9,0.18,12.011,11.83295652173913,yellowlong_teste9_polars.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),0,3.62,11.799,10.391,yellowlong_teste0_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),1,3.54,12.439,11.084315789473685,yellowlong_teste1_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),2,3.49,12.528,11.699535714285714,yellowlong_teste2_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),3,3.51,12.796,11.255910714285715,yellowlong_teste3_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),4,3.36,12.828,11.482000000000001,yellowlong_teste4_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),5,3.38,12.81,11.505236363636362,yellowlong_teste5_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),6,3.46,12.443,11.463963636363635,yellowlong_teste6_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),7,3.46,12.824,11.247127272727273,yellowlong_teste7_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),8,3.39,12.768,11.449254545454545,yellowlong_teste8_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,CSV,A1_yellowlong_teste_pandas (pronto),9,3.56,12.358,11.397928571428574,yellowlong_teste9_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),0,3.54,13.192,10.574718660968662,yellowlong_teste0_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),1,0.97,9.364,9.01116129032258,yellowlong_teste1_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),2,0.91,9.394,9.017,yellowlong_teste2_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),3,0.91,9.551,9.141033333333334,yellowlong_teste3_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),4,0.98,9.591,9.252580645161292,yellowlong_teste4_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),5,0.94,9.578,9.244612903225805,yellowlong_teste5_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),6,0.93,9.61,9.238033333333332,yellowlong_teste6_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),7,0.92,9.534,9.260290322580646,yellowlong_teste7_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),8,0.9,9.468,9.094666666666665,yellowlong_teste8_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Pandas,Parquet,A1_yellowlong_teste_parquet_pandas (pronto),9,0.9,9.472,9.094366666666668,yellowlong_teste9_parquet_pandas.csv
+1_Leitura_Pura,Yellow_Long,Polars,Parquet,A1_yellowlong_teste_parquet_polars (pronto),-1,0.16,13.817,13.752608695652176,yellowlong_testex_parquet_polars.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),10,12.43,9.841,9.679875000000001,yellowlong_teste10_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),1,12.71,10.18,9.783653061224491,yellowlong_teste1_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),2,12.3,10.305,10.137753521126761,yellowlong_teste2_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),3,12.33,10.293,10.114577464788733,yellowlong_teste3_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),4,12.4,10.123,9.901636363636364,yellowlong_teste4_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),5,12.43,10.224,10.074125874125874,yellowlong_teste5_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),6,12.41,10.102,9.862615384615383,yellowlong_teste6_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),7,12.46,9.846,9.687597222222223,yellowlong_teste7_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),8,12.47,9.843,9.6881875,yellowlong_teste8_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),9,12.5,9.847,9.688881944444445,yellowlong_teste9_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,CSV,A1_yellowlong_teste_readr (Pronto),-1,13.42,9.912,9.450967320261439,yellowlong_testeFRIO_readr.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),10,0.52,12.316,12.030538461538459,yellowlong_teste10_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),1,0.53,11.446,10.996846153846157,yellowlong_teste1_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),2,0.53,11.953,11.49973076923077,yellowlong_teste2_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),3,0.59,12.375,12.004814814814816,yellowlong_teste3_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),4,0.6,12.292,11.951185185185183,yellowlong_teste4_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),5,0.52,11.497,11.055653846153847,yellowlong_teste5_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),6,0.51,12.0,11.553076923076922,yellowlong_teste6_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),7,0.54,12.298,12.041730769230771,yellowlong_teste7_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),8,0.57,12.333,12.097769230769233,yellowlong_teste8_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),9,0.5,11.987,11.54623076923077,yellowlong_teste9_parquet.csv
+1_Leitura_Pura,Yellow_Long,R_Readr,Parquet,A1_yellowlong_teste_readr_parquet (Pronto),-1,0.59,10.828,10.261583333333332,yellowlong_testeFRIO_parquet.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),0,8.96,10.259,9.785372727272728,yellowlong_teste0_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),10,8.88,10.511,10.18489908256881,yellowlong_teste10_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),1,9.2,10.365,10.111366071428572,yellowlong_teste1_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),2,8.96,10.31,10.170225225225225,yellowlong_teste2_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),3,8.77,10.31,10.007268518518515,yellowlong_teste3_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),4,8.51,10.445,10.065514285714286,yellowlong_teste4_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),5,8.5,10.477,10.11044761904762,yellowlong_teste5_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),6,9.04,10.319,10.028819819819823,yellowlong_teste6_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),7,8.49,10.396,10.076409523809524,yellowlong_teste7_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),8,8.76,10.37,10.035277777777777,yellowlong_teste8_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Base,CSV,A2_yellowlong_baser_csv_seminf (Pronto),9,8.99,10.421,10.15449090909091,yellowlong_teste9_base_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),0,0.18,13.9,13.832304347826089,yellowlong_teste0_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),10,0.17,13.922,13.741217391304348,yellowlong_teste10_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),1,0.18,14.146,13.449,yellowlong_teste1_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),2,0.19,13.987,13.821608695652172,yellowlong_teste2_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),3,0.15,13.897,13.670478260869562,yellowlong_teste3_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),4,0.17,13.966,13.704304347826087,yellowlong_teste4_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),5,0.17,14.071,13.780869565217396,yellowlong_teste5_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),6,0.18,13.973,13.820391304347824,yellowlong_teste6_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),7,0.18,14.027,13.800478260869562,yellowlong_teste7_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),8,0.18,14.038,13.78378260869565,yellowlong_teste8_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Polars,CSV,A2_yellowlong_polars_seminf (pronto),9,0.17,13.948,13.747565217391303,yellowlong_teste9_polars_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),0,7.28,10.889,9.227884210526316,yellowlong_teste0_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),10,7.14,11.502,9.864891304347827,yellowlong_teste10_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),1,7.32,10.729,9.484191011235955,yellowlong_teste1_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),2,7.22,11.187,9.624096774193546,yellowlong_teste2_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),3,7.19,11.899,10.258924731182795,yellowlong_teste3_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),4,7.18,11.408,9.99147311827957,yellowlong_teste4_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),5,7.08,11.558,9.980395604395605,yellowlong_teste5_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),6,7.15,11.528,9.984347826086957,yellowlong_teste6_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),7,7.28,11.782,10.019494623655914,yellowlong_teste7_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),8,7.27,11.696,10.078956989247311,yellowlong_teste8_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,Pandas,CSV,A2_yellowlong_seminf_pandas (Pronto),9,7.08,11.347,9.773461538461538,yellowlong_teste9_pandas_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,0,8.77,11.263,9.337287037037036,yellowlong_test0x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,10,9.24,15.415,14.442575221238938,yellowlong_test10x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,11,8.97,14.418,13.84097272727273,yellowlong_test11x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,1,8.11,13.715,12.006019607843132,yellowlong_test1x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,2,38.38,15.295,14.360694029850746,yellowlong_test2x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,3,8.34,13.338,11.98798076923077,yellowlong_test3x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,4,15.11,15.346,13.487058479532164,yellowlong_test4x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,5,7.88,11.533,9.729949494949494,yellowlong_test5x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,6,8.59,14.489,12.477471698113206,yellowlong_test6x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,7,8.49,15.409,14.511428571428569,yellowlong_test7x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,8,8.89,15.35,14.488192660550459,yellowlong_test8x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf,9,9.19,15.281,14.394884955752211,yellowlong_test9x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),10,8.69,14.116,12.631429906542056,yellowlong_test10x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),1,8.4,14.464,12.823278846153844,yellowlong_test1x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),2,8.76,14.324,12.597435185185187,yellowlong_test2x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),3,8.46,14.058,12.338161904761906,yellowlong_test3x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),4,8.14,14.076,12.328009900990097,yellowlong_test4x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),5,8.36,14.109,12.377660194174757,yellowlong_test5x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),6,7.96,14.085,12.402179999999998,yellowlong_test6x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),7,7.81,13.995,12.386111111111111,yellowlong_test7x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),8,7.92,14.011,12.556444444444447,yellowlong_test8x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),9,8.07,14.068,12.553970297029705,yellowlong_test9x_readr_seminf.csv
+2_Com_Tipagem,Yellow_Long,R_Readr,CSV,A2_yellowlong_teste_readr_seminf (Pronto),-1,9.31,12.092,10.189550458715598,yellowlong_testFRIOx_readr_seminf.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),0,13.67,10.37,10.060624203821657,yellowlong_teste0_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),10,12.68,10.422,10.074258503401358,yellowlong_teste10_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),1,12.83,10.37,10.122601351351351,yellowlong_teste1_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),2,12.94,10.371,10.077766666666669,yellowlong_teste2_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),3,13.12,10.345,10.078721854304638,yellowlong_teste3_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),4,13.27,10.323,9.996052631578948,yellowlong_teste4_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),5,13.22,10.502,10.217052631578948,yellowlong_teste5_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),6,12.22,10.508,10.120232394366196,yellowlong_teste6_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),7,12.0,10.517,10.361978571428573,yellowlong_teste7_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),8,12.68,10.511,10.135455782312924,yellowlong_teste8_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Base,CSV,A3_yellowlong_base_ignorando (pronto),9,13.06,10.571,10.118033112582783,yellowlong_teste9_base_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),0,2.52,10.898,10.262717391304347,yellowlong_teste0_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),10,2.45,11.859,11.421673913043477,yellowlong_teste10_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),1,2.52,11.45,10.975,yellowlong_teste1_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),2,2.58,11.387,10.969340425531914,yellowlong_teste2_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),3,2.49,11.542,11.056478260869566,yellowlong_teste3_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),4,2.56,11.488,11.14523404255319,yellowlong_teste4_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),5,2.49,11.646,11.191717391304348,yellowlong_teste5_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),6,2.46,11.756,11.343195652173911,yellowlong_teste6_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),7,2.52,11.775,11.310869565217393,yellowlong_teste7_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),8,2.47,11.572,11.316782608695652,yellowlong_teste8_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Pandas,CSV,A3_yellowlong_colunas_pandas (Pronto),9,2.5,11.79,11.234347826086958,yellowlong_teste9_pandas_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),0,0.13,14.298,14.106521739130438,yellowlong_teste0_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),10,0.17,14.446,14.27591304347826,yellowlong_teste10_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),1,0.14,14.322,14.098434782608695,yellowlong_teste1_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),2,0.13,14.484,14.273045454545452,yellowlong_teste2_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),3,0.13,14.495,14.29181818181818,yellowlong_teste3_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),4,0.17,14.707,14.360869565217389,yellowlong_teste4_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),5,0.18,14.735,14.542043478260869,yellowlong_teste5_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),6,0.2,14.755,14.532130434782607,yellowlong_teste6_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),7,0.19,14.716,14.398826086956522,yellowlong_teste7_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),8,0.22,14.634,14.379956521739132,yellowlong_teste8_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,Polars,CSV,A3_yellowlong_polars_igcolunas (Pronto),9,0.2,14.583,14.33226086956522,yellowlong_teste9_polars_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),0,12.54,8.917,8.68544055944056,yellowlong_teste0_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),10,12.21,9.075,8.78087142857143,yellowlong_teste10_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),1,12.56,8.88,8.675888888888888,yellowlong_teste1_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),2,12.47,8.963,8.749161971830985,yellowlong_teste2_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),3,12.47,8.979,8.763908450704225,yellowlong_teste3_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),4,12.7,8.973,8.75415172413793,yellowlong_teste4_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),5,12.73,9.022,8.797510344827584,yellowlong_teste5_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),6,12.84,8.971,8.755115646258503,yellowlong_teste6_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),7,12.3,9.635,8.949942857142858,yellowlong_teste7_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),8,12.28,9.059,8.813738805970146,yellowlong_teste8_readr_ignorando.csv
+3_Apenas_Colunas,Yellow_Long,R_Readr,CSV,A3_yellowlong_teste_readr_ignorando (Pronto),9,15.68,9.096,8.71703448275862,yellowlong_teste9_readr_ignorando.csv

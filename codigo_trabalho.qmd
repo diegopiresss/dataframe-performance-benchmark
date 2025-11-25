@@ -1,0 +1,1107 @@
+---
+title: "Benchmark - Bibliotecas de importação de dados"
+format: html
+editor: visual
+---
+
+```{r}
+#| warning: true
+#| include: false
+library(readr) # read_csv
+library(arrow) # parquet
+library(JuliaCall) # usar julia dentro do R
+library(ggplot2)
+library(dplyr)
+library(glue)
+
+library(reticulate)
+```
+
+```{r}
+#| eval: false
+#| include: false
+reticulate::py_install('polars')
+reticulate::py_install('pandas')
+reticulate::py_install('plotnine')
+reticulate::py_install('matplotlib')
+reticulate::py_install('fastparquet')
+```
+
+```{python}
+import pandas as pd
+import polars as pl
+import matplotlib.pyplot as plt
+import os
+import time
+import numpy as np
+
+```
+
+```{r}
+# Monitor de memória RAM em R
+iniciar_monitor <- function(nome_arquivo, intervalo = 0.1) {
+  arquivo_csv <- paste0(nome_arquivo, ".csv")
+  
+  # Comando Python: arquivo primeiro, intervalo depois
+  python_cmd <- ifelse(.Platform$OS.type == "windows", "python", "python3")
+  comando <- paste(python_cmd, "monitor_ram.py", arquivo_csv, intervalo)
+  
+  # Iniciar em background
+  if (.Platform$OS.type == "windows") {
+    shell(paste("start /B", comando), wait = FALSE)
+  } else {
+    system(paste(comando, "&"), wait = FALSE)
+  }
+  
+  Sys.sleep(2)
+  return(arquivo_csv)
+}
+
+parar_monitor <- function() {
+  if (file.exists("monitor_pid.txt")) {
+    pid <- trimws(readLines("monitor_pid.txt", warn = FALSE)[1])
+    
+    if (.Platform$OS.type == "windows") {
+      system(paste("taskkill /F /PID", pid), 
+             ignore.stdout = TRUE, show.output.on.console = FALSE)
+    } else {
+      system(paste("kill -9", pid), ignore.stdout = TRUE)
+    }
+  }
+  
+  Sys.sleep(1)
+}
+```
+
+```{python}
+def iniciar_monitor(nome_arquivo, intervalo=0.1):
+    arquivo_csv = f"{nome_arquivo}.csv"
+    
+    dir_name = os.path.dirname(arquivo_csv)
+    if dir_name and not os.path.exists(dir_name):
+        os.makedirs(dir_name)
+    
+    # Usar os.system para evitar problemas com subprocess no reticulate
+    comando = f"python monitor_ram.py {arquivo_csv} {intervalo}"
+    
+    if os.name == 'nt':  # Windows
+        os.system(f'start /B {comando}')
+    else:  # Linux/Mac
+        os.system(f'{comando} &')
+    
+    time.sleep(2)
+    
+    if not os.path.exists(arquivo_csv):
+        raise Exception("Erro: CSV não foi criado")
+    
+    print(f"Monitor iniciado: {arquivo_csv}")
+    return arquivo_csv
+
+def parar_monitor():
+    if os.path.exists("monitor_pid.txt"):
+        with open("monitor_pid.txt", "r") as f:
+            pid = f.read().strip()
+        
+        if os.name == 'nt':  # Windows
+            os.system(f'taskkill /F /PID {pid} >nul 2>&1')
+        else:  # Linux/Mac
+            os.system(f'kill -9 {pid} 2>/dev/null')
+    
+    time.sleep(1)
+    if os.path.exists("monitor_pid.txt"):
+        os.remove("monitor_pid.txt")
+    
+    print("Monitor parado")
+```
+
+```{python}
+def benchmark_leitura(nome_saida, arquivo_ler, funcao_leitura, **kwargs):
+    """
+    Executa benchmark de leitura de CSV com monitoramento de RAM
+    
+    Args:
+        nome_saida: Nome do arquivo de saída (sem .csv)
+        arquivo_ler: Caminho do CSV para ler
+        funcao_leitura: Função de leitura (ex: pd.read_csv, pl.read_csv)
+        **kwargs: Argumentos extras para a função de leitura
+    """
+    # Iniciar monitor
+    arquivo_csv = iniciar_monitor(f"resultados/{nome_saida}")
+    
+    # Medir tempo de execução
+    inicio = time.time()
+    dados = funcao_leitura(arquivo_ler, **kwargs)
+    fim = time.time()
+    
+    # Parar monitor
+    parar_monitor()
+    
+    # Calcular tempo total (garantir que são números)
+    tempo_total_s = float(fim - inicio)
+    tempo_total_min = tempo_total_s / 60
+    
+    # Adicionar linha de tempo total no CSV
+    with open(arquivo_csv, 'a') as f:
+        f.write(f"# TEMPO_TOTAL_SEGUNDOS: {tempo_total_s:.2f}\n")
+        f.write(f"# TEMPO_TOTAL_MINUTOS: {tempo_total_min:.2f}\n")
+    
+    # Imprimir resultado
+    print("\n=== Benchmark Concluído ===")
+    print(f"Arquivo salvo: {arquivo_csv}")
+    print(f"Tempo de execução: {tempo_total_s:.2f}s ({tempo_total_min:.2f} min)")
+    
+    # Número de linhas (funciona com pandas e polars)
+    try:
+        n_linhas = len(dados)
+        print(f"Linhas lidas: {n_linhas:,}")
+    except:
+        pass
+    
+    print()
+    
+    return dados
+
+
+```
+
+```{r}
+# Benchmark para leitura em R 
+
+benchmark_leitura <- function(nome_saida, arquivo_ler, funcao_leitura, ...) {
+  # Iniciar monitor
+  arquivo_csv <- paste0("resultados/", nome_saida, ".csv")
+  iniciar_monitor(paste0("resultados/", nome_saida))
+  
+  # Medir tempo de execução
+  inicio <- Sys.time()
+  dados <- funcao_leitura(arquivo_ler, ...)
+  fim <- Sys.time()
+  
+  # Parar monitor
+  parar_monitor()
+  
+  # Calcular tempo total
+  tempo_total_s <- as.numeric(difftime(fim, inicio, units = "secs"))
+  tempo_total_min <- tempo_total_s / 60
+  
+  # Adicionar linha de tempo total no CSV
+  cat(sprintf("# TEMPO_TOTAL_SEGUNDOS: %.2f\n", tempo_total_s), 
+      file = arquivo_csv, append = TRUE)
+  cat(sprintf("# TEMPO_TOTAL_MINUTOS: %.2f\n", tempo_total_min), 
+      file = arquivo_csv, append = TRUE)
+  
+  # Imprimir resultado
+  cat("\n=== Benchmark Concluído ===\n")
+  cat("Arquivo salvo:", arquivo_csv, "\n")
+  cat("Tempo de execução:", tempo_total_s, "segundos (", tempo_total_min, "minutos)\n")
+  cat("Linhas lidas:", nrow(dados), "\n\n")
+  
+  return(invisible(dados))
+}
+```
+
+```{python}
+def benchmark_leitura(nome_saida, arquivo_ler, funcao_leitura, **kwargs):
+    """
+    Executa benchmark de leitura de CSV com monitoramento de RAM
+    
+    Args:
+        nome_saida: Nome do arquivo de saída (sem .csv)
+        arquivo_ler: Caminho do CSV para ler
+        funcao_leitura: Função de leitura (ex: pd.read_csv, pl.read_csv)
+        **kwargs: Argumentos extras para a função de leitura
+    """
+    # Iniciar monitor
+    arquivo_csv = iniciar_monitor(f"resultados/{nome_saida}")
+    
+    # Medir tempo de execução
+    inicio = time.time()
+    dados = funcao_leitura(arquivo_ler, **kwargs)
+    fim = time.time()
+    
+    # Parar monitor
+    parar_monitor()
+    
+    # Calcular tempo total (garantir que são números)
+    tempo_total_s = float(fim - inicio)
+    tempo_total_min = tempo_total_s / 60
+    
+    # Adicionar linha de tempo total no CSV
+    with open(arquivo_csv, 'a') as f:
+        f.write(f"# TEMPO_TOTAL_SEGUNDOS: {tempo_total_s:.2f}\n")
+        f.write(f"# TEMPO_TOTAL_MINUTOS: {tempo_total_min:.2f}\n")
+    
+    # Imprimir resultado
+    print("\n=== Benchmark Concluído ===")
+    print(f"Arquivo salvo: {arquivo_csv}")
+    print(f"Tempo de execução: {tempo_total_s:.2f}s ({tempo_total_min:.2f} min)")
+    
+    # Número de linhas (funciona com pandas e polars)
+    try:
+        n_linhas = len(dados)
+        print(f"Linhas lidas: {n_linhas:,}")
+    except:
+        pass
+    
+    print()
+    
+    return dados
+```
+
+```{python}
+def plotar_memoria(arquivo_csv):
+    dados = pd.read_csv(arquivo_csv)
+    
+    plt.figure(figsize=(10, 6))
+    plt.plot(dados["tempo_s"], dados["memoria_gb"])
+    plt.xlabel("Tempo (s)")
+    plt.ylabel("Memória (GB)")
+    plt.title(f"Uso de RAM - Min: {dados['memoria_gb'].min():.2f}GB | Max: {dados['memoria_gb'].max():.2f}GB")
+    plt.grid(True, alpha=0.3)
+    plt.show()
+
+
+```
+
+```{r}
+ler_csv_base <- function(arquivo) {
+  read.csv(arquivo)
+}
+
+ler_csv_sem_inferencia_base <- function(arquivo, tipos) {
+  read.csv(arquivo, colClasses = "character")
+}
+
+ler_csv_colunas <- function(arquivo, colunas) {
+  read.csv(arquivo)[, colunas]
+}
+
+###########
+
+ler_parquet_base <- function(arquivo) {
+  read_parquet(arquivo)
+}
+
+ler_parquet_sem_inferencia_base <- function(arquivo, tipos) {
+  # O argumento 'tipos' foi mantido para preservar a assinatura, mas é ignorado
+  # tal qual no exemplo original.
+  # Parquet já possui tipos definidos. Para simular colClasses="character",
+  # lemos o arquivo e convertemos todas as colunas para texto.
+  df <- read_parquet(arquivo)
+  df[] <- lapply(df, as.character)
+  return(df)
+}
+
+ler_parquet_colunas <- function(arquivo, colunas) {
+  # O parâmetro col_select realiza a leitura apenas das colunas necessárias (pushdown projection)
+  read_parquet(arquivo, col_select = all_of(colunas))
+}
+
+
+# a base já faz tudo errado, então meio que nem contar (nessa parte de colunas)
+#
+#Exemplo de uso:
+
+#dados <- ler_csv("arquivo.csv")
+
+#tipos <- c("integer", "character", "numeric", "integer", "numeric")
+#dados <- ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+#tipos_nomeados <- c(
+#  VendorID = "integer",
+#  store_and_fwd_flag = "character",
+#  passenger_count = "integer",
+#  trip_distance = "numeric",
+#  fare_amount = "numeric"
+#)
+#dados <- ler_csv_sem_inferencia("arquivo.csv", tipos_nomeados)
+```
+
+```{r}
+library(dplyr)
+# Funções para teste em R (readr)
+
+ler_csv_readr <- function(arquivo) {
+  read_csv(arquivo)
+}
+
+ler_csv_sem_inferencia_readr <- function(arquivo, tipos) {
+  read_csv(arquivo, col_types = tipos)
+}
+
+ler_csv_colunas_readr <- function(arquivo, colunas) {
+  read_csv(arquivo, col_select = all_of(colunas))
+}
+
+##################
+
+ler_parquet_readr <- function(arquivo) {
+  read_parquet(arquivo)
+}
+
+
+# tipos deve ter o formato - tipos <- "iDDiddciiiidddddd"
+```
+
+```{python}
+# Funções para o Benchmark em Pandas
+
+def ler_csv_pd(arquivo):
+    return pd.read_csv(arquivo)
+
+def ler_csv_sem_inferencia_pd(arquivo, tipos):
+    return pd.read_csv(arquivo, dtype=tipos)
+
+def ler_csv_colunas_pd(arquivo, colunas):
+    return pd.read_csv(arquivo, usecols=colunas)
+  
+##############
+
+def ler_parquet_pd(arquivo):
+    return pd.read_parquet(arquivo, engine = "fastparquet")
+
+def ler_parquet_sem_inferencia_pd(arquivo, tipos):
+    # Parquet já possui tipos, então pd.read_parquet não aceita o argumento 'dtype'.
+    # Para simular o comportamento, lemos e convertemos para os tipos desejados.
+    df = pd.read_parquet(arquivo)
+    return df.astype(tipos)
+
+def ler_parquet_colunas_pd(arquivo, colunas):
+    # Em read_parquet, o argumento equivalente a 'usecols' é 'columns'
+    return pd.read_parquet(arquivo, columns=colunas)
+```
+
+Exemplo de uso:
+
+dados = ler_csv("arquivo.csv")
+
+tipos = { 'VendorID': 'int32', 'passenger_count': 'int32', 'trip_distance': 'float64', 'fare_amount': 'float64' } dados = ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+-   colocar uma lista de colunas
+
+```{python}
+# Funções para o Benchmark em Polars
+
+def ler_csv_pl(arquivo): # lembrar dessa limitaçã para colocar no relatório
+    return pl.read_csv(arquivo, infer_schema_length = 1000000)
+  
+def ler_csv_pl_giga(arquivo):
+    # 1. infer_schema_length=0 força TODAS as colunas a serem lidas como String.
+    # Isso evita o ComputeError imediato na leitura do arquivo.
+    df = pl.read_csv(arquivo, infer_schema_length=0)
+
+    # 2. Lista abrangente de colunas numéricas comuns no dataset de Taxi
+    # que podem ter formatação com vírgula.
+    cols_numericas = [
+        "trip_distance", "fare_amount", "extra", "mta_tax",
+        "tip_amount", "tolls_amount", "improvement_surcharge",
+        "total_amount", "congestion_surcharge", "passenger_count",
+        "VendorID", "RatecodeID", "PULocationID", "DOLocationID",
+        "payment_type"
+    ]
+
+    # 3. Interseção para garantir que só tentamos converter colunas que existem no arquivo
+    cols_existentes = [c for c in cols_numericas if c in df.columns]
+
+    # 4. Aplica a limpeza (remove vírgula) e conversão (cast) em lote
+    return df.with_columns(
+        [
+            pl.col(c).str.replace_all(",", "").cast(pl.Float64, strict=False)
+            for c in cols_existentes
+        ]
+    )
+    
+def ler_csv_sem_inferencia_pl(arquivo, tipos):
+    return pl.read_csv(arquivo, schema=tipos)
+  
+def ler_csv_colunas_pl(arquivo, colunas):
+    return pl.read_csv(arquivo, columns=colunas)
+  
+  ############
+  
+def ler_parquet_pl(arquivo):
+    # Parquet lê o schema do rodapé do arquivo. 
+    # Não é necessário (nem possível) definir 'infer_schema_length'.
+    return pl.read_parquet(arquivo)
+
+def ler_parquet_sem_inferencia_pl(arquivo, tipos):
+    # O read_parquet não aceita um argumento 'schema' para sobrescrita na leitura.
+    # A equivalência lógica é ler o arquivo (com o schema original) e converter (cast) depois.
+    return pl.read_parquet(arquivo).cast(tipos)
+
+def ler_parquet_colunas_pl(arquivo, colunas):
+    return pl.read_parquet(arquivo, columns=colunas)
+```
+
+""" def ler_csv_pl(arquivo): return ( pl.read_csv( arquivo, \# Impede o erro forçando a leitura como texto apenas nesta coluna schema_overrides={"trip_distance": pl.String} ) .with_columns( \# Remove a vírgula e converte para float pl.col("trip_distance").str.replace(",", "").cast(pl.Float64) ) ) """
+
+Exemplo de uso:
+
+dados = ler_csv("arquivo.csv")
+
+tipos = { 'VendorID': pl.Int32, 'passenger_count': pl.Int32, 'trip_distance': pl.Float64, 'fare_amount': pl.Float64 } dados = ler_csv_sem_inferencia("arquivo.csv", tipos)
+
+-   para o a função ler_csv_colunas(arquivo, colunas) passar uma lista para as colunas """
+
+```{python}
+def pegar_metadados(caminho_template, inicio=1, fim=6):
+    dados = []
+    for i in range(inicio, fim):
+        arquivo = caminho_template.format(i=i)
+        with open(arquivo, 'r') as f:
+            temp = {'teste': i}
+            for linha in f:
+                if 'TEMPO_TOTAL_SEGUNDOS' in linha:
+                    temp['tempo_total_s'] = float(linha.split(': ')[1])
+                elif 'TEMPO_TOTAL_MINUTOS' in linha:
+                    temp['tempo_total_m'] = float(linha.split(': ')[1])
+            dados.append(temp)
+    return pd.DataFrame(dados)
+
+# Usar assim:
+#df = pegar_metadados('resultados/yellowlong_teste{i}_readr.csv')
+```
+
+```{python}
+def criar_df_benchmark():
+    """Cria DataFrame vazio para armazenar resultados de benchmark"""
+    colunas = [
+        'biblioteca',
+        'nome_dataset', 
+        'tempo_medio_s',
+        'tempo_mediano_s',
+        'tempo_min_s',
+        'tempo_max_s',
+        'desvio_padrao_s',
+        'coef_variacao_pct',
+        'q1_s',
+        'q3_s',
+        'iqr_s',
+        'outliers_detectados'
+    ]
+    return pd.DataFrame(columns=colunas)
+```
+
+```{python}
+
+def calcular_estatisticas(df_benchmark, biblioteca, nome_dataset):
+    """
+    Calcula estatísticas descritivas de benchmark
+    
+    Parâmetros:
+    - df_benchmark: DataFrame com colunas teste, tempo_total_s, tempo_total_m
+    - biblioteca: nome da biblioteca testada (ex: 'pandas', 'polars')
+    - nome_dataset: nome do dataset (ex: 'yellowlong')
+    
+    Retorna:
+    - Series com estatísticas descritivas
+    """
+    
+    tempos = df_benchmark['tempo_total_s'].values
+    
+    # Estatísticas descritivas
+    media = np.mean(tempos)
+    mediana = np.median(tempos)
+    desvio = np.std(tempos, ddof=1)
+    
+    # Coeficiente de variação (%)
+    cv = (desvio / media) * 100 if media != 0 else 0
+    
+    # Quartis e IQR
+    q1 = np.percentile(tempos, 25)
+    q3 = np.percentile(tempos, 75)
+    iqr = q3 - q1
+    
+    # Detecção de outliers (método IQR)
+    limite_inf = q1 - 1.5 * iqr
+    limite_sup = q3 + 1.5 * iqr
+    outliers = np.sum((tempos < limite_inf) | (tempos > limite_sup))
+    
+    return pd.Series({
+        'biblioteca': biblioteca,
+        'nome_dataset': nome_dataset,
+        'n_testes': len(tempos),
+        'tempo_medio_s': round(media, 4),
+        'tempo_mediano_s': round(mediana, 4),
+        'tempo_min_s': round(np.min(tempos), 4),
+        'tempo_max_s': round(np.max(tempos), 4),
+        'desvio_padrao_s': round(desvio, 4),
+        'coef_variacao_pct': round(cv, 2),
+        'q1_s': round(q1, 4),
+        'q3_s': round(q3, 4),
+        'iqr_s': round(iqr, 4),
+        'outliers_detectados': int(outliers)
+    })
+```
+
+# A partir daqui, estarão todas as funções prontas já para testes.
+
+-   Readr sem argumentos adicionais.
+
+-   Readr sem inferência de tipos de colunas.
+
+## 1° - Testes com Readr
+
+```{r}
+# yellow long readr - FEITO
+
+benchmark_leitura("yellowlong_teste_readr/yellowlong_teste10_readr", "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",ler_csv_readr)
+```
+
+```{r}
+# yellow long readr (PARQUET) - FEITO
+
+for (i in 1:10) {
+  benchmark_leitura(
+    glue("yellowlong_teste_parquet/yellowlong_teste{i}_parquet"), 
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.parquet", 
+    ler_parquet_readr
+  )
+}
+```
+
+```{r}
+# SO readr - FEITO
+
+for (i in 1:11) {benchmark_leitura(glue"stackoverflow_teste_readr/stackoverflow_teste{i}_readr", "ancho-stack-overflow-developer-survey-2024/survey_results_public.csv",ler_csv_readr) }
+```
+
+```{r}
+# SO readr parquet FEITO
+for (i in 1:10) { 
+  benchmark_leitura(
+    glue("stackoverflow_teste_readr_parquet/stackoverflow_teste{i}_readr_parquet"), "ancho-stack-overflow-developer-survey-2024/survey_results_public.parquet",ler_parquet_readr
+    ) 
+  }
+```
+
+```{r}
+# Gigayellow readr CSV (feito)
+
+for (i in 0:11) {benchmark_leitura(glue("gigayellow_teste_readr/gigayellow_teste{i}_readr"), "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.parquet",ler_parquet_readr)}
+```
+
+```{r}
+# readr yellowgiga CSV (noiteeeeeeeee)
+for (i in 0:11) {benchmark_leitura(glue("gigayellow_teste_readr_csv/gigayellow_teste{i}_readr"), "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.csv",ler_csv_readr)}
+```
+
+```{r}
+# yellow long readr sem inf PRONTO
+
+for (i in 0:11) {benchmark_leitura(glue("A2_yellowlong_teste_readr_seminf/yellowlong_test{i}x_readr_seminf"), "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",ler_csv_sem_inferencia_readr, tipos = "iDDiddciiiidddddd")}
+```
+
+```{r}
+# Ignorando colunas PRONTO
+# 8 de 19 colunas.
+colunas_selecionadas <- c(
+  "VendorID",
+  "tpep_pickup_datetime",
+  "tpep_dropoff_datetime",
+  "passenger_count",
+  "trip_distance",
+  "fare_amount",
+  "tip_amount",
+  "total_amount"
+)
+
+for (i in 0:10) {benchmark_leitura(
+  glue("A3_yellowlong_teste_readr_ignorando/yellowlong_teste{i}_readr_ignorando"), 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+  function(arq) ler_csv_colunas_readr(arq, colunas_selecionadas)
+)}
+```
+
+## 2° Base do R
+
+```{r}
+# Inferindo colunas pronto
+
+for (i in 0:10) {benchmark_leitura(
+  glue("A1_yellowlong_baser_csv/yellowlong_teste{i}_base"), 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+  ler_csv_base
+)}
+```
+
+```{r}
+# Parquet yellowlong pronto
+for (i in 0:10) {benchmark_leitura(
+  glue("A1_yellowlong_baser_parquet/yellowlong_teste{i}_parquet_base"), 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.parquet", 
+  ler_parquet_base
+)}
+```
+
+```{r}
+# Stackoverflow PRONTO
+for (i in 1:10) {benchmark_leitura(glue("A1_stackoverflow_teste_baser/stackoverflow_teste{i}_baser"), "ancho-stack-overflow-developer-survey-2024/survey_results_public.csv",ler_csv_base)}
+```
+
+```{r}
+# stackovwrflow, baser parquet PRONTO
+for (i in 1:10) {benchmark_leitura(glue("A1_stackoverflow_teste_baser_parquet/stackoverflow_teste{i}_baser_parquet"), "ancho-stack-overflow-developer-survey-2024/survey_results_public.parquet",ler_parquet_base)}
+```
+
+```{r}
+# yellowgiga inferindo colunas FEITO
+
+for (i in 0:10) {benchmark_leitura(glue("A1_gigayellow_teste_baser/gigayellow_teste{i}_baser"), "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.csv",ler_csv_base)}
+```
+
+```{r}
+# Sem inferência de colunas yellow long - FEITO
+
+tipos_colunas <- c("integer", "character", "character", "integer", 
+                   "numeric", "numeric", "character", "integer", 
+                   "integer", "integer", "numeric", "numeric", 
+                   "numeric", "numeric", "numeric", "numeric", 
+                   "numeric", "numeric")
+
+for (i in 0:10) {benchmark_leitura(
+  glue("A2_yellowlong_baser_csv_seminf/yellowlong_teste{i}_base_seminf"), 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+  function(arq) ler_csv_sem_inferencia_base(arq)
+)}
+```
+
+```{r}
+# Tirando algumas das colunas - FEITO
+
+colunas_selecionadas <- c(
+  "VendorID",
+  "tpep_pickup_datetime",
+  "tpep_dropoff_datetime",
+  "passenger_count",
+  "trip_distance",
+  "fare_amount",
+  "tip_amount",
+  "total_amount"
+)
+
+# Benchmark 1: Selecionando colunas específicas
+for (i in 0:10) {benchmark_leitura(
+  glue("A3_yellowlong_base_ignorando/yellowlong_teste{i}_base_ignorando"), 
+  "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+  function(arq) ler_csv_colunas(arq, colunas_selecionadas)
+)}
+```
+
+## 3° Pandas
+
+```{python}
+# Com inferência - FEITO
+
+for i in range(0,10):
+  benchmark_leitura(
+    f"A1_yellowlong_teste_pandas/yellowlong_teste{i}_pandas",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_pd
+  )
+```
+
+```{python}
+# yellow long parquet pandas - FEITO
+for i in range(0,10):
+  benchmark_leitura(
+    f"A1_yellowlong_teste_parquet_pandas/yellowlong_teste{i}_parquet_pandas",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.parquet",
+    ler_parquet_pd
+  )
+```
+
+```{python}
+# SO pandas - FEITO
+
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_stackoverflow_teste_pandas/stackoverflow_teste{i}_pandas",
+    "ancho-stack-overflow-developer-survey-2024/survey_results_public.csv",
+    ler_csv_pd
+  )
+```
+
+```{python}
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_stackoverflow_teste_pandas_parquet/stackoverflow_teste{i}_pandas",
+    "ancho-stack-overflow-developer-survey-2024/survey_results_public.parquet",
+    ler_parquet_pd
+  )
+```
+
+```{python}
+# gigayellow pandas - NOITE
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_gigayellow_teste_pandas/gigayellow_teste{i}_pandas",
+    "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.csv",
+    ler_csv_pd
+)
+```
+
+```{python}
+# gigayellow pandas - NOITE
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_gigayellow_teste_pandas_parquet/gigayellow_teste{i}_pandas_parquet",
+    "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.parquet",
+    ler_parquet_pd
+)
+```
+
+```{python}
+# Sem inferência
+
+tipos_colunas = {
+    "VendorID": "Int32",              # Int32 maiúsculo (nullable)
+    "tpep_pickup_datetime": "object",
+    "tpep_dropoff_datetime": "object",
+    "passenger_count": "Int32",        # Int32 maiúsculo (nullable)
+    "trip_distance": "float64",
+    "RatecodeID": "float64",
+    "store_and_fwd_flag": "object",
+    "PULocationID": "Int32",           # Int32 maiúsculo (nullable)
+    "DOLocationID": "Int32",           # Int32 maiúsculo (nullable)
+    "payment_type": "Int32",           # Int32 maiúsculo (nullable)
+    "fare_amount": "float64",
+    "extra": "float64",
+    "mta_tax": "float64",
+    "tip_amount": "float64",
+    "tolls_amount": "float64",
+    "improvement_surcharge": "float64",
+    "total_amount": "float64",
+    "congestion_surcharge": "float64"
+}
+
+for i in range(0,11) :
+  benchmark_leitura(
+    f"A2_yellowlong_seminf_pandas/yellowlong_teste{i}_pandas_seminf",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_sem_inferencia_pd,
+    tipos=tipos_colunas
+)
+```
+
+```{python}
+colunas_selecionadas = [
+    "VendorID",
+    "tpep_pickup_datetime",
+    "tpep_dropoff_datetime",
+    "passenger_count",
+    "trip_distance",
+    "fare_amount",
+    "tip_amount",
+    "total_amount"
+]
+
+# Benchmark 1: Selecionando colunas específicas
+for i in range(0,11):
+  benchmark_leitura(
+    f"A3_yellowlong_colunas/yellowlong_teste{i}_pandas_ignorando",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_colunas_pd,
+    colunas=colunas_selecionadas
+)
+
+```
+
+## 4° Polars
+
+```{python}
+# Com inferência yellow long - feito
+
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_yellowlong_polars_csv/yellowlong_teste{i}_polars",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_pl
+)
+```
+
+```{python}
+
+# Yellowlong - parquet
+for i in range(0,11):
+  benchmark_leitura(
+    "A1_yellowlong_teste_parquet_polars/yellowlong_testex_parquet_polars",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.parquet",
+    ler_parquet_pl
+)
+```
+
+```{python}
+# SO csv pronto
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_stackoverflow_teste_polars/stackoverflow_teste{i}_polars",
+    "ancho-stack-overflow-developer-survey-2024/survey_results_public.csv",
+    ler_csv_pl
+  )
+```
+
+```{python}
+# SO parquet pronto
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_stackoverflow_teste_polars_parquet/stackoverflow_teste{i}_polars_parquet",
+    "ancho-stack-overflow-developer-survey-2024/survey_results_public.parquet",
+    ler_parquet_pl
+  )
+```
+
+```{python}
+# GIGA csv NOITE
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_gigayellow_teste_polars/gigayellow_teste{i}_polars",
+    "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.csv",
+    ler_csv_pl_giga
+)
+```
+
+```{python}
+# GIGA parquet NOITE
+for i in range(0,11):
+  benchmark_leitura(
+    f"A1_gigayellow_teste_polars_parquet/gigayellow_teste{i}_polars_parquet",
+    "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.parquet",
+    ler_parquet_pl
+)
+```
+
+```{python}
+# Sem inferência - feito
+
+tipos_colunas = {
+    "VendorID": pl.Int32,
+    "tpep_pickup_datetime": pl.Utf8,
+    "tpep_dropoff_datetime": pl.Utf8,
+    "passenger_count": pl.Int32,
+    "trip_distance": pl.Float64,
+    "RatecodeID": pl.Float64,
+    "store_and_fwd_flag": pl.Utf8,
+    "PULocationID": pl.Int32,
+    "DOLocationID": pl.Int32,
+    "payment_type": pl.Int32,
+    "fare_amount": pl.Float64,
+    "extra": pl.Float64,
+    "mta_tax": pl.Float64,
+    "tip_amount": pl.Float64,
+    "tolls_amount": pl.Float64,
+    "improvement_surcharge": pl.Float64,
+    "total_amount": pl.Float64,
+    "congestion_surcharge": pl.Float64,
+    "airport_fee": pl.Float64
+}
+
+for i in range(0,11):
+  benchmark_leitura(
+    f"A2_yellowlong_polars_seminf/yellowlong_teste{i}_polars_seminf",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_sem_inferencia_pl,
+    tipos=tipos_colunas
+)
+```
+
+```{python}
+# Selecionando colunas
+colunas_selecionadas = [
+    "VendorID",
+    "tpep_pickup_datetime",
+    "tpep_dropoff_datetime",
+    "passenger_count",
+    "trip_distance",
+    "fare_amount",
+    "tip_amount",
+    "total_amount"
+]
+
+# Benchmark 1: Selecionando colunas específicas
+for i in range(0,11):
+  benchmark_leitura(
+    f"A3_yellowlong_polars_igcolunas/yellowlong_teste{i}_polars_ignorando",
+    "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+    ler_csv_colunas_pl,
+    colunas=colunas_selecionadas
+)
+```
+
+```{python}
+import os
+import pandas as pd
+import glob
+import re
+
+# --- CONFIGURAÇÃO ---
+# Caminho onde estão as pastas (use '.' se o script estiver na mesma pasta)
+ROOT_FOLDER = r'C:\Users\dipis\OneDrive\Área de Trabalho\Pastas\Matérias\ME315\Trabalho ME315\resultados'
+
+def parse_folder_attributes(folder_name):
+    """
+    Transforma o nome bagunçado da pasta em metadados limpos.
+    """
+    name_lower = folder_name.lower()
+    
+    # 1. Definir Cenário
+    if name_lower.startswith('a1'):
+        cenario = '1_Leitura_Pura'
+    elif name_lower.startswith('a2'):
+        cenario = '2_Com_Tipagem'
+    elif name_lower.startswith('a3'):
+        cenario = '3_Apenas_Colunas'
+    else:
+        return None # Ignora pastas que não são do bench
+
+    # 2. Definir Dataset
+    if 'giga' in name_lower:
+        dataset = 'Giga_Yellow'
+    elif 'long' in name_lower:
+        dataset = 'Yellow_Long'
+    elif 'stack' in name_lower or 'wide' in name_lower:
+        dataset = 'StackOverflow_Wide'
+    else:
+        dataset = 'Outros'
+
+    # 3. Definir Biblioteca
+    if 'polars' in name_lower:
+        lib = 'Polars'
+    elif 'pandas' in name_lower:
+        lib = 'Pandas'
+    elif 'readr' in name_lower:
+        lib = 'R_Readr'
+    elif 'base' in name_lower:
+        lib = 'R_Base'
+    else:
+        lib = 'Desconhecido'
+
+    # 4. Definir Formato (Regra: Se não diz Parquet, é CSV)
+    formato = 'Parquet' if 'parquet' in name_lower else 'CSV'
+
+    return {
+        'Cenario': cenario,
+        'Dataset': dataset,
+        'Biblioteca': lib,
+        'Formato': formato,
+        'Pasta_Original': folder_name
+    }
+
+def process_file_content(filepath):
+    """
+    Lê o arquivo misto: Extrai RAM do CSV e Tempo do rodapé.
+    """
+    tempo_total = None
+    
+    # 1. Ler o arquivo como texto puro para achar o rodapé
+    with open(filepath, 'r') as f:
+        lines = f.readlines()
+        
+    # Extrair tempo do rodapé (procurando de trás pra frente)
+    for line in reversed(lines):
+        if line.startswith('# TEMPO_TOTAL_SEGUNDOS:'):
+            try:
+                tempo_total = float(line.split(':')[1].strip())
+                break
+            except:
+                pass
+    
+    # 2. Ler a parte CSV (ignorando linhas com #) para pegar a RAM
+    try:
+        df_log = pd.read_csv(filepath, comment='#')
+        pico_ram = df_log['memoria_gb'].max()
+        media_ram = df_log['memoria_gb'].mean()
+    except Exception as e:
+        # Caso o arquivo esteja vazio ou corrompido
+        return None, None, None
+
+    return tempo_total, pico_ram, media_ram
+
+
+```
+
+```{python}
+dados_consolidados = []
+
+print(f"Lendo diretório: {ROOT_FOLDER}")
+
+# Pega tudo que tem na pasta
+todos_itens = os.listdir(ROOT_FOLDER)
+
+# Filtra apenas o que é diretório, montando o caminho completo para testar
+folders = [f for f in todos_itens if os.path.isdir(os.path.join(ROOT_FOLDER, f))]
+
+print(f"Pastas encontradas: {len(folders)}")
+
+for folder in folders:
+    meta = parse_folder_attributes(folder)
+    if not meta:
+        continue # Pula pastas que não são do benchmark
+    
+    # Procura arquivos dentro da pasta (assume que são os únicos arquivos ou filtra por padrão)
+    # Ajuste o padrão '*' se seus arquivos tiverem extensão específica como .txt ou .csv
+    files = [f for f in glob.glob(os.path.join(ROOT_FOLDER, folder, '*')) if os.path.isfile(f)]
+    
+    for file in files:
+        filename = os.path.basename(file)
+        
+        # Extrair número da iteração (teste0, teste1, etc)
+        # Tenta achar números no nome do arquivo
+        numeros = re.findall(r'\d+', filename)
+        iteracao = int(numeros[-1]) if numeros else -1
+        
+        tempo, pico_ram, media_ram = process_file_content(file)
+        
+        if tempo is not None:
+            entry = meta.copy()
+            entry.update({
+                'Iteracao': iteracao,
+                'Tempo_Segundos': tempo,
+                'RAM_Pico_GB': pico_ram,
+                'RAM_Media_GB': media_ram,
+                'Arquivo': filename
+            })
+            dados_consolidados.append(entry)
+
+# Criar DataFrame Mestra
+df_master = pd.DataFrame(dados_consolidados)
+
+# --- LIMPEZA FINAL ---
+# Opcional: Remover o "Teste 0" (Cold Start) se quiser apenas a média estável
+# df_master = df_master[df_master['Iteracao'] > 0]
+
+print("Concluído!")
+print(f"Total de amostras processadas: {len(df_master)}")
+print(df_master.head())
+
+# Salvar para não precisar rodar de novo
+df_master.to_csv('MASTER_BENCHMARK_DATA.csv', index=False)
+```
+
+```{python}
+# --- SUBSTITUIR O BLOCO DE LISTAGEM DE PASTAS POR ESTE ---
+
+print(f"Lendo diretório: {ROOT_FOLDER}")
+
+# Pega tudo que tem na pasta
+todos_itens = os.listdir(ROOT_FOLDER)
+
+# Filtra apenas o que é diretório, montando o caminho completo para testar
+folders = [f for f in todos_itens if os.path.isdir(os.path.join(ROOT_FOLDER, f))]
+
+print(f"Pastas encontradas: {len(folders)}")
+
+# Se ainda der 0, mostra o que ele está vendo (para debug)
+if len(folders) == 0:
+    print("--- DIAGNÓSTICO ---")
+    print("O Python enxergou estes itens (mas não considerou pastas):")
+    print(todos_itens[:10]) # Mostra os 10 primeiros
+    print("-------------------")
+
+# --- CONTINUA O RESTO DO SCRIPT IGUAL ---
+```
+
+```{python}
+df = pd.read_csv("MASTER_BENCHMARK_DATA.csv")
+print(df)
+```
