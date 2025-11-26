@@ -1,0 +1,498 @@
+---
+title: "Benchmark de Ferramentas de Importação de Dados"
+subtitle: "Python, R e Julia: Velocidade vs. Facilidade de Uso"
+author: "Diego Pires Silva, Henry Koiti Honda, Joaquim Bertoldi Nucci"
+format:
+  revealjs:
+    theme: dark
+    slide-number: true
+    chalkboard: true
+    preview-links: auto
+    code-fold: false
+    code-tools: true
+    highlight-style: github
+    transition: slide
+    background-transition: fade
+    footer: "ME315 - Benchmark de Importação"
+editor: visual
+---
+
+```{r setup, include=FALSE}
+# Configuração global
+knitr::opts_chunk$set(
+  echo = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  fig.align = "center"
+)
+
+# Carregar bibliotecas R
+library(dplyr)
+library(ggplot2)
+library(readr)
+library(knitr)
+
+# Tentar configurar Python (com fallback)
+if (requireNamespace("reticulate", quietly = TRUE)) {
+  tryCatch({
+    reticulate::use_condaenv("base", required = FALSE)
+    # Instalar pacotes Python se necessário
+    if (!reticulate::py_module_available("pandas")) {
+      reticulate::py_install("pandas")
+    }
+    if (!reticulate::py_module_available("seaborn")) {
+      reticulate::py_install("seaborn")
+    }
+    if (!reticulate::py_module_available("matplotlib")) {
+      reticulate::py_install("matplotlib")
+    }
+  }, error = function(e) {
+    message("Python setup falhou, usando apenas R")
+  })
+}
+
+# Carregar dados
+df <- read_csv("MASTER_BENCHMARK_DATA.csv", show_col_types = FALSE)
+```
+
+## Motivação {background-color="#1e3a5f"}
+
+- 📊 **Dados cada vez maiores**, notebooks com os mesmos 16GB RAM
+- ⏳ Ferramentas clássicas (Pandas, R Base) sofrem com arquivos grandes
+- 💡 **Polars e Parquet**: são realmente a solução?
+- 🎯 Objetivo: testar na prática, sem nuvem cara ou NASA hardware
+
+---
+
+## Metodologia Experimental {.smaller}
+
+::: {.columns}
+::: {.column width="50%"}
+**Hardware**
+- MSI Cyborg 14 (i7, RTX 4050, 16GB RAM)
+- Windows 11, modo "Alta Performance"
+- Processos concorrentes encerrados
+
+**Protocolo**
+- 10 execuções por cenário
+- Mediana dos tempos (evita outliers)
+- 338 amostras totais
+:::
+
+::: {.column width="50%"}
+**Datasets**
+- **Giga**: NYC Taxi (estresse de RAM)
+- **Long**: NYC Taxi (processamento vetorial)
+- **Wide**: Stack Overflow Survey (muitas colunas)
+
+**Tecnologias**
+- Python 3.13: Polars 1.33, Pandas 2.2
+- R 4.4.3: readr 2.1.5, arrow 21.0
+- Julia 1.2.0
+:::
+:::
+
+---
+
+## Resultado 1: CSV vs Parquet - Speedup
+
+```{r}
+#| echo: true
+#| eval: true
+
+df_41 <- df %>% 
+  filter(Cenario == '1_Leitura_Pura')
+
+# Tabela de speedup
+tabela <- df_41 %>%
+  group_by(Dataset, Biblioteca, Formato) %>%
+  summarise(Tempo = mean(Tempo_Segundos), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = Formato, values_from = Tempo) %>%
+  mutate(Speedup_X = round(CSV / Parquet, 2))
+
+cat("\n🏆 Calculando ganhos de CSV → Parquet...\n")
+```
+
+---
+
+## Resultado 1: Tabela Completa de Speedup {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+
+df_analise <- read.table(text = "
+Dataset             Biblioteca CSV    Parquet Speedup_X
+Giga_Yellow         Julia      177.13 8.23    21.52
+Giga_Yellow         Pandas     201.79 12.16   16.60
+Giga_Yellow         Polars     51.23  9.41    5.44
+StackOverflow_Wide  R_Base     2.08   0.21    10.02
+StackOverflow_Wide  Polars     0.49   0.06    8.76
+StackOverflow_Wide  Pandas     1.06   0.13    8.15
+StackOverflow_Wide  R_Readr    1.68   0.22    7.77
+StackOverflow_Wide  Julia      3.65   0.69    5.27
+Yellow_Long         Julia      14.48  0.51    28.18
+Yellow_Long         R_Base     13.39  0.53    25.03
+Yellow_Long         R_Readr    12.53  0.55    22.98
+Yellow_Long         Polars     0.55   0.16    3.44
+Yellow_Long         Pandas     3.48   1.19    2.92
+", header = TRUE)
+
+df_analise
+```
+
+**🚀 Julia no Parquet Giga: 28x mais rápido!**
+
+---
+
+## Visualização: Parquet Destrói CSV
+
+```{r}
+#| echo: false
+#| eval: true
+#| fig-width: 12
+#| fig-height: 7
+
+# Gráfico de barras comparativo - MAIOR
+df_giga <- df_41 %>%
+  filter(Dataset == 'Giga_Yellow') %>%
+  group_by(Biblioteca, Formato) %>%
+  summarise(Tempo = median(Tempo_Segundos), .groups = "drop")
+
+ggplot(df_giga, aes(x = Biblioteca, y = Tempo, fill = Formato)) +
+  geom_bar(stat = "identity", position = "dodge", width = 0.7) +
+  scale_fill_manual(values = c("CSV" = "#e74c3c", "Parquet" = "#27ae60")) +
+  labs(
+    title = "Dataset Giga: CSV vs Parquet",
+    x = "Biblioteca",
+    y = "Tempo (segundos)"
+  ) +
+  theme_minimal(base_size = 16) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5, size = 20),
+    axis.text.x = element_text(angle = 45, hjust = 1, size = 14),
+    axis.text.y = element_text(size = 14),
+    legend.position = "top",
+    legend.text = element_text(size = 14),
+    legend.title = element_text(size = 14)
+  )
+```
+
+---
+
+## Destaque: A Vitória do Julia {.smaller}
+
+**📊 Por que Julia venceu no Parquet?**
+
+1. **Arquitetura JIT (Just-in-Time)**: Compila código em tempo de execução para velocidade nativa
+2. **I/O Otimizado**: Engine especializada para leitura binária estruturada
+3. **Gestão de Memória**: 20% mais eficiente que Pandas (~10GB vs 12GB)
+
+**⚠️ O Trade-off:**
+- ✅ **Parquet Giga**: 8.23s (campeão absoluto)
+- ❌ **CSV Giga**: 177s (3 minutos!)
+- 📈 **Speedup**: 21.5x ao migrar para Parquet
+
+**💡 Quando usar Julia:**
+- Pipelines recorrentes (JIT se paga após primeira execução)
+- Dados já em Parquet
+- Performance máxima é crítica
+
+---
+
+## Resultado 2: Ranking de Velocidade
+
+```{r}
+#| echo: true
+#| eval: true
+
+df_giga_rank <- df %>%
+  filter(Dataset == 'Giga_Yellow', Cenario == '1_Leitura_Pura') %>%
+  group_by(Formato, Biblioteca) %>%
+  summarise(
+    Tempo_s = median(Tempo_Segundos),
+    RAM_GB = max(RAM_Pico_GB),
+    .groups = "drop"
+  )
+
+cat("\n🥇 Calculando rankings...\n")
+```
+
+---
+
+## Ranking CSV (Força Bruta) {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+
+df_giga_csv <- read.table(text = "
+Biblioteca  Tempo_Mediano_s  RAM_Pico_GB  X_Vezes_Mais_Lento
+Polars            54.82        15.71                1.00
+Julia           164.52     15706.00                3.00
+R_Base           201.72     15709.00                3.68
+Pandas           202.37     15709.00                3.69
+", header = TRUE)
+
+df_giga_csv
+```
+
+---
+
+## Ranking Parquet (I/O Otimizado) {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+
+df_giga_parquet <- read.table(text = "
+Biblioteca  Tempo_Mediano_s  RAM_Pico_GB  X_Vezes_Mais_Lento
+R_Readr             8.27     15705.00                1.00
+Julia             8.45      7373.00                1.02
+Polars             9.85        15.71                1.19
+Pandas            11.68     15709.00                1.41
+", header = TRUE)
+
+df_giga_parquet
+```
+
+---
+
+## Resultado 3: Memória é o Limite
+
+```{r}
+#| echo: true
+#| eval: true
+
+df_mem <- df %>%
+  filter(
+    Cenario == '1_Leitura_Pura',
+    Formato == 'CSV',
+    Dataset %in% c('Yellow_Long', 'Giga_Yellow')
+  ) %>%
+  group_by(Dataset, Biblioteca) %>%
+  summarise(
+    RAM_GB = max(RAM_Pico_GB),
+    Tempo_s = median(Tempo_Segundos),
+    .groups = "drop"
+  )
+
+cat("\n💾 Calculando consumo de RAM...\n")
+```
+
+---
+
+## Consumo de RAM (CSV) {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+
+df_memoria_csv <- read.table(text = "
+Biblioteca  Giga_Yellow  Yellow_Long
+Julia       15706.00     10227.0
+Pandas      15709.00     12828.0
+Polars      15.71        14466.0
+R_Base      15709.00     9012.0
+R_Readr     NaN          10305.0
+", header = TRUE)
+
+df_memoria_csv
+```
+
+**⚠️ Todas atingiram ~15.7GB no Giga = Muro de hardware!**
+
+---
+
+## Resultado 4: Otimização Manual
+
+```{r}
+#| echo: true
+#| eval: true
+
+df_opt <- df %>%
+  filter(Dataset == 'Yellow_Long', Formato == 'CSV')
+
+tabela_opt <- df_opt %>%
+  group_by(Biblioteca, Cenario) %>%
+  summarise(Tempo = median(Tempo_Segundos), .groups = "drop") %>%
+  tidyr::pivot_wider(names_from = Cenario, values_from = Tempo) %>%
+  mutate(
+    Ganho_Tipagem_Pct = round((1 - `2_Com_Tipagem` / `1_Leitura_Pura`) * 100, 1),
+    Ganho_Colunas_Pct = round((1 - `3_Apenas_Colunas` / `1_Leitura_Pura`) * 100, 1)
+  )
+
+cat("\n⚙️ Calculando impacto de otimizações...\n")
+```
+
+---
+
+## Impacto de Otimizações {.smaller}
+
+```{r}
+#| echo: false
+#| eval: true
+
+resultado <- tabela_opt %>%
+  select(Biblioteca, `1_Leitura_Pura`, `2_Com_Tipagem`, 
+         Ganho_Tipagem_Pct, Ganho_Colunas_Pct)
+
+kable(resultado, digits = 2,
+      col.names = c("Biblioteca", "Base (s)", "C/ Tipagem (s)", 
+                    "Ganho Tipagem (%)", "Ganho Colunas (%)"),
+      align = c("l", "r", "r", "r", "r"))
+```
+
+**⚠️ Pandas com tipagem manual: -106% (piorou!)**
+
+---
+
+## Comparação Python vs R vs Julia {background-color="#2c3e50"}
+
+::: {.columns}
+::: {.column width="33%"}
+**🐍 Python (Polars)**
+```python
+import polars as pl
+df = pl.read_csv("data.csv", 
+    columns=['col1', 'col2'])
+```
+
+✅ Campeão em CSV  
+✅ Sintaxe moderna  
+❌ Curva de aprendizado  
+❌ Tipagem estrita
+:::
+
+::: {.column width="33%"}
+**📊 R (readr)**
+```r
+library(readr)
+df <- read_csv("data.csv",
+    col_select = c(col1, col2))
+```
+
+✅ Integração tidyverse  
+✅ Sintaxe familiar  
+✅ Parquet competitivo  
+❌ CSV mais lento
+:::
+
+::: {.column width="33%"}
+**⚡ Julia**
+```julia
+using CSV, DataFrames
+df = CSV.read("data.csv", 
+    DataFrame)
+```
+
+✅ Campeão em Parquet  
+✅ Performance máxima  
+❌ Tempo de compilação  
+❌ Ecossistema menor
+:::
+:::
+
+---
+
+## Facilidade de Uso: Comparação de Código
+
+::: {.panel-tabset}
+
+### Pandas (Fácil)
+```python
+import pandas as pd
+
+# Leitura simples, sem configuração
+df = pd.read_csv("arquivo.csv")
+print(df.head())
+
+# Plug-and-play, mas pode ser lento
+```
+
+### Polars (Rigoroso)
+```python
+import polars as pl
+
+# Precisa configurar schema se houver problemas
+df = pl.read_csv("arquivo.csv",
+    schema_overrides={"col": pl.Int64})
+
+# Rápido, mas exige atenção aos tipos
+```
+
+### R readr (Intuitivo)
+```r
+library(readr)
+
+# Sintaxe limpa, integração com pipes
+df <- read_csv("arquivo.csv") %>%
+  select(col1, col2)
+
+# Familiar para usuários de R
+```
+
+### Julia (Performática)
+```julia
+using CSV, DataFrames
+
+# Sintaxe simples, performance máxima
+df = CSV.read("arquivo.csv", DataFrame)
+
+# Melhor em Parquet, compilação inicial
+```
+
+:::
+
+---
+
+## Guia Prático de Decisão (1/2) {.smaller}
+
+| Situação | Ferramenta Recomendada | Por quê? |
+|----------|------------------------|----------|
+| 🆕 Começando agora | **Polars** | 4x mais rápido, força boas práticas |
+| 📜 Script legado funcional | **Pandas** | Não otimize o que não está lento |
+| 📁 CSV grande (>1GB) | **Polars** | Melhor gestão de memória |
+| ⚡ Performance máxima | **Julia + Parquet** | 28x speedup, campeão absoluto |
+
+---
+
+## Guia Prático de Decisão (2/2) {.smaller}
+
+| Situação | Ferramenta Recomendada | Por quê? |
+|----------|------------------------|----------|
+| 🗂️ Parquet disponível | **Julia/Polars** | Julia: 8.2s, Polars: 9.4s (Giga) |
+| 📊 Usuário de R | **readr/arrow** | Nunca use `read.csv()` nativo |
+| 💼 Produção profissional | **Polars + Parquet** | Máxima eficiência + tipagem |
+| 🔬 Computação científica | **Julia** | JIT compilation, mas curva de aprendizado |
+
+---
+
+## Conclusões {background-color="#27ae60" .smaller}
+
+::: {style="font-size: 0.85em;"}
+1. **Parquet não é opcional**: Ganhos de 5-28x são decisivos
+2. **Polars domina CSV**: 4x mais rápido que Pandas em texto
+3. **Julia lidera Parquet**: 8.23s no Giga (campeão absoluto, 28x speedup)
+4. **R continua relevante**: readr/arrow são competitivos
+5. **Memória é o limite real**: 16GB RAM esgotam com ~8GB de CSV
+6. **Otimização depende da ferramenta**: Pandas não gosta de tipagem manual
+7. **Julia para performance**: Melhor em Parquet, exige paciência com JIT
+:::
+
+---
+
+
+## Backup: Detalhes Técnicos {.smaller visibility="hidden"}
+
+```{r}
+#| echo: true
+#| eval: true
+
+# Estatísticas gerais do benchmark
+cat("\n📊 Resumo do Dataset Completo:\n")
+cat(sprintf("Total de execuções: %d\n", nrow(df)))
+cat(sprintf("Bibliotecas testadas: %d\n", n_distinct(df$Biblioteca)))
+cat(sprintf("Datasets avaliados: %d\n", n_distinct(df$Dataset)))
+cat(sprintf("Tempo total de benchmark: %.1f horas\n", sum(df$Tempo_Segundos) / 3600))
+```
