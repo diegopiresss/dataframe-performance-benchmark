@@ -75,18 +75,19 @@ Passo a Passo
 
     Preparação dos Dados: Execute o arquivo codigo_transformar_dados.qmd. Ele irá ler os arquivos CSV originais na pasta datasets/ e gerar as versões .parquet necessárias para o comparativo de formatos.
 
-    Execução do Benchmark: Rode o codigo_trabalho.qmd. Este script irá:
+    Execução do Benchmark: Rode o codigo_trabalho.qmd e testes_julia.qmd. Este script irá:
 
         Iterar sobre todos os cenários (Giga, Wide, Long).
 
-        Testar cada biblioteca (Pandas, Polars, R Base, R Readr).
+        Testar cada biblioteca (Pandas, Polars, R Base, R Readr, Julia).
 
         Acionar o monitor_ram.py em segundo plano para medir o pico de memória.
 
         Salvar os logs individuais na pasta resultados/.
 
     Análise dos Resultados: O arquivo MASTER_BENCHMARK_DATA.csv contém a compilação final das métricas (Tempo, RAM, Speedup). Você pode usá-lo para gerar gráficos ou ler as análises diretamente no relatório final.
-
+    
+    ESSE ARQUIVO FOI GERADO DO ZERO PARA A ANÁLISE FEITA NO TRABALHO COM MAIS DE 350 AMOSTRAS DE TEMPO E CONSUMO DE MEMÓRIA RAM DURANTE A IMPORTAÇÃO DOS ARQUIVOS.
 Metodologia
 
 O estudo avaliou três cenários (A1, A2, A3) focando em:
@@ -97,8 +98,8 @@ O estudo avaliou três cenários (A1, A2, A3) focando em:
 
     A3 (Seleção de Colunas): Eficiência de Projection Pushdown.
 
-Hardware de Teste:
-
+Hardware de Teste: MSI Cyborg 14 (Notebook)
+    
     Processador: Intel Core i7
 
     RAM: 16 GB (Limite físico intencional)
@@ -112,5 +113,7 @@ Resultados Principais (Resumo)
     Performance: O Polars foi a ferramenta mais eficiente para processar CSVs gigantes, enquanto o R (readr) mostrou excelente desempenho em arquivos Parquet.
 
     Memória: Em datasets >1GB, todas as bibliotecas saturaram os 16GB de RAM, evidenciando a necessidade de estratégias como Lazy Evaluation ou Chunking para máquinas locais.
+
+    Julia é uma ótima opção e que resolve o problema das duas linguagens.
 
  Desenvolvido por Diego Pires, Henry Koiti Honda e Joaquim Bertoldi Nucci
