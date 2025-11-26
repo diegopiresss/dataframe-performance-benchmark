@@ -1,0 +1,305 @@
+---
+title: "tentativa_julia"
+format: html
+editor: visual
+---
+
+## Neste arqivo está contido todos os testes realizados utilizando Julia. Lendo os 3 datasets.
+
+```{r}
+library(JuliaCall)
+
+# Substitua o caminho abaixo pelo que você copiou no passo 1
+caminho_julia <- "C:/Users/dipis/AppData/Local/Programs/Julia-1.12.2/bin"
+
+julia_setup(JULIA_HOME = caminho_julia)
+```
+
+```{julia}
+using Pkg
+Pkg.add(["CSV", "DataFrames", "Parquet2", "Arrow"])
+```
+
+```{julia}
+using CSV
+using DataFrames
+using Parquet2
+using Arrow
+
+
+# 1) Ler CSV normalmente 
+function ler_csv_julia(arquivo)
+return CSV.read(arquivo, DataFrame)
+end
+
+
+# 2) Ler CSV SEM inferir tipos
+
+# tipos deve vir como Dict("coluna" => Tipo)
+
+# Exemplo:
+
+# tipos = Dict("VendorID"=>Int32, "passenger_count"=>Int32)
+
+function ler_csv_sem_inferencia_julia(arquivo, tipos::Dict)
+return CSV.read(arquivo, DataFrame; types=tipos)
+end
+
+
+# 3) Ler apenas algumas colunas (select)
+function ler_csv_colunas_julia(arquivo, colunas::Vector{String})
+return CSV.read(arquivo, DataFrame; select=colunas)
+end
+
+
+# 4) Ler Parquet (equivalente ao polars.read_parquet)
+function ler_parquet_julia(arquivo)
+    # Lê o Parquet e converte para DataFrame
+    ds = Parquet2.Dataset(arquivo)
+    return DataFrame(ds)
+end
+
+```
+
+```{julia}
+using Dates
+
+function benchmark_leitura_julia(nome_saida, arquivo_ler, funcao_leitura; kwargs...)
+    # 1. Garantir que a pasta resultados existe
+    pasta_resultados = "resultados"
+    if !isdir(pasta_resultados)
+        mkdir(pasta_resultados)
+    end
+
+    # 2. Definir o caminho base (Pasta + Nome) SEM extensão para passar ao R
+    # Ex: "resultados/A1_giga_csv"
+    caminho_base_para_R = joinpath(pasta_resultados, nome_saida)
+    
+    # 3. Definir o caminho completo COM extensão para o Julia escrever
+    # Ex: "resultados/A1_giga_csv.csv"
+    arquivo_csv_completo = caminho_base_para_R * ".csv"
+
+    # Mata monitor anterior se houver
+    R"parar_monitor()" 
+    
+    # --- CORREÇÃO AQUI ---
+    # Passamos o caminho com a pasta para o R
+    R"arquivo_monitor <- iniciar_monitor($caminho_base_para_R)"
+
+    # Medir tempo
+    inicio = time()
+    # O GC.gc() é opcional, mas recomendado antes de benchmark para limpar lixo anterior
+    GC.gc() 
+    dados = funcao_leitura(arquivo_ler; kwargs...)
+    fim = time()
+
+    # Parar monitor
+    R"parar_monitor()"
+
+    # Tempo total
+    tempo_total_s = fim - inicio
+    tempo_total_min = tempo_total_s / 60
+
+    # Anexa tempo no arquivo CSV (agora o mesmo que o Python usou)
+    open(arquivo_csv_completo, "a") do f
+        write(f, "# TEMPO_TOTAL_SEGUNDOS: $(round(tempo_total_s, digits=2))\n")
+        write(f, "# TEMPO_TOTAL_MINUTOS: $(round(tempo_total_min, digits=2))\n")
+    end
+
+    println("===== Benchmark Julia Concluído =====")
+    println("Arquivo salvo em: ", arquivo_csv_completo)
+    println("Tempo (s): ", round(tempo_total_s, digits=2))
+    
+    # Em Julia, nrow precisa do DataFrames carregado ou usar size(dados, 1)
+    try
+        println("Linhas lidas: ", nrow(dados))
+    catch
+        println("Linhas lidas: (Objeto não é DataFrame padrão)")
+    end
+
+    return dados
+end
+```
+
+```{r}
+iniciar_monitor <- function(nome_arquivo, intervalo = 0.1) {
+  arquivo_csv <- paste0(nome_arquivo, ".csv")
+  
+  # Comando Python: arquivo primeiro, intervalo depois
+  python_cmd <- ifelse(.Platform$OS.type == "windows", "python", "python3")
+  comando <- paste(python_cmd, "monitor_ram.py", arquivo_csv, intervalo)
+  
+  # Iniciar em background
+  if (.Platform$OS.type == "windows") {
+    shell(paste("start /B", comando), wait = FALSE)
+  } else {
+    system(paste(comando, "&"), wait = FALSE)
+  }
+  
+  Sys.sleep(2)
+  return(arquivo_csv)
+}
+
+parar_monitor <- function() {
+  if (file.exists("monitor_pid.txt")) {
+    pid <- trimws(readLines("monitor_pid.txt", warn = FALSE)[1])
+    
+    if (.Platform$OS.type == "windows") {
+      system(paste("taskkill /F /PID", pid), 
+             ignore.stdout = TRUE, show.output.on.console = FALSE)
+    } else {
+      system(paste("kill -9", pid), ignore.stdout = TRUE)
+    }
+  }
+  
+  Sys.sleep(1)
+}
+```
+
+```{julia}
+# Ler CSV completo - feito
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas
+    benchmark_leitura_julia(
+        "A1_yellow_long_julia/csv_yellowlong$(i)_julia",
+        "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+        ler_csv_julia
+    )
+end
+```
+
+```{julia}
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas - feito
+    benchmark_leitura_julia(
+        "A1_yellow_long_julia_parquet/yellowlong$(i)_julia_parquet",
+        "long- yellow_tripdata2023-01/yellow_tripdata_2023-01.parquet",
+        ler_parquet_julia
+    )
+end
+```
+
+```{julia}
+# SO csv
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas - feito
+    benchmark_leitura_julia(
+        "A1_stackoverflow_julia_csv/stackoverflow$(i)_julia_csv",
+        "ancho-stack-overflow-developer-survey-2024/survey_results_public.csv",
+        ler_csv_julia
+    )
+end
+
+```
+
+```{julia}
+# SO csv
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas
+    benchmark_leitura_julia(
+        "A1_stackoverflow_julia_parquet/stackoverflow$(i)_julia_parquet",
+        "ancho-stack-overflow-developer-survey-2024/survey_results_public.parquet",
+        ler_parquet_julia
+    )
+end
+```
+
+```{julia}
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas
+    benchmark_leitura_julia(
+        "A1_gigayellow_julia_csv/gigayellow$(i)_julia_csv",
+        "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.csv",
+        ler_csv_julia
+    )
+end
+```
+
+```{julia}
+for i in 1:10 # Substitua 10 pelo número de repetições desejadas
+    benchmark_leitura_julia(
+        "A1_gigayellow_julia_parquet/gigayellow$(i)_julia_csv",
+        "giga-yellow_taxidata2023/2023_Yellow_Taxi_Trip_Data_20251021.parquet",
+        ler_parquet_julia
+    )
+end
+```
+
+```{julia}
+# Em Julia, usamos os tipos nativos, não strings
+tipos_colunas_julia = Dict(
+    "VendorID" => Int32,
+    "tpep_pickup_datetime" => String, # "object" no pandas vira String aqui
+    "tpep_dropoff_datetime" => String,
+    "passenger_count" => Int32,
+    "trip_distance" => Float64,
+    "RatecodeID" => Float64,
+    "store_and_fwd_flag" => String,
+    "PULocationID" => Int32,
+    "DOLocationID" => Int32,
+    "payment_type" => Int32,
+    "fare_amount" => Float64,
+    "extra" => Float64,
+    "mta_tax" => Float64,
+    "tip_amount" => Float64,
+    "tolls_amount" => Float64,
+    "improvement_surcharge" => Float64,
+    "total_amount" => Float64,
+    "congestion_surcharge" => Float64
+)
+
+function ler_csv_sem_inferencia_julia(arquivo; tipos=Dict())
+    # O CSV.jl aceita Dict direto no parametro types
+    return CSV.read(arquivo, DataFrame; types=tipos)
+end
+```
+
+```{julia}
+if !isdir("resultados/A2_yellowlong_seminf_julia")
+    mkdir("resultados/A2_yellowlong_seminf_julia")
+end
+
+println("--- Iniciando Benchmark A2 (Tipagem Manual) ---")
+
+for i in 0:10
+    benchmark_leitura_julia(
+        "A2_yellowlong_seminf_julia/yellowlong_teste$(i)_julia_seminf", # Nome do arquivo de saída
+        "datasets/long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv", # Caminho do Input
+        ler_csv_sem_inferencia_julia, # A função wrapper
+        tipos=tipos_colunas_julia     # O dicionário de tipos passado como kwarg
+    )
+end
+```
+
+```{julia}
+colunas_selecionadas = [
+    "VendorID",
+    "tpep_pickup_datetime",
+    "tpep_dropoff_datetime",
+    "passenger_count",
+    "trip_distance",
+    "fare_amount",
+    "tip_amount",
+    "total_amount"
+]
+
+# 2. Definir a função Wrapper
+# Importante: O CSV.jl usa o parâmetro 'select' para filtrar colunas
+function ler_csv_colunas_julia(arquivo; colunas=String[])
+    return CSV.read(arquivo, DataFrame; select=colunas)
+end
+
+# 3. Criar a pasta de resultados (se não existir)
+pasta_saida = "resultados/A3_yellowlong_colunas_julia"
+if !isdir(pasta_saida)
+    mkpath(pasta_saida) # mkpath é mais seguro que mkdir pois cria subpastas se precisar
+end
+
+println("--- Iniciando Benchmark A3 (Seleção de Colunas) ---")
+
+# 4. Loop de Execução
+for i in 0:10
+    benchmark_leitura_julia(
+        # Ajustei o nome da pasta e arquivo para 'julia' para manter organizado
+        "A3_yellowlong_colunas_julia/yellowlong_teste$(i)_julia_colunas", 
+        "datasets/long- yellow_tripdata2023-01/yellow_tripdata_2023-01.csv",
+        ler_csv_colunas_julia,
+        colunas=colunas_selecionadas # Passa o vetor para o kwarg 'colunas'
+    )
+end
+```
