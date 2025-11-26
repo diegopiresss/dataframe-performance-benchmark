@@ -39,10 +39,11 @@ Para reproduzir os testes, organize seus arquivos da seguinte forma:
 │
 ├── codigo_transformar_dados.qmd # Script para converter os CSVs originais em Parquet
 ├── codigo_testes.qmd            # Script principal que executa os benchmarks (R e Python)
-├── testes_julia.qmd             # Scrips com testes dos benchmarks em JULIA
+├── testes_julia.qmd             # Scrips com testes dos benchmarks em JULIA (separado por questões de conflitos com o python, rodar no mesmo .qmd)
 ├── monitor_ram.py               # Script auxiliar para monitoramento de recursos em tempo real
-├── MASTER_BENCHMARK_DATA.csv    # Tabela consolidada com todos os resultados finais
+├── MASTER_BENCHMARK_DATA.csv    # Tabela consolidada com todos os resultados finais gerados por testes_julia.qmd e codigo_testes.qmd
 ├── analise_benchmark.qmd        # Contém a análise final e o relatório final das análises feitas (Python, R e Julia) MAIS IMPORTANTE
+├── analise_benchmark.qmd        # analise_benchmark.qmd em Html (RECOMENDADO OLHAR AQUI)
 └── README.md
 ```
 
