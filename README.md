@@ -5,7 +5,7 @@
 
 2- O trabalho foi dividido em 3 partes e qmd's:
     - codigo_transformar_dados: utilizado somente para transformar os dados de csv para parquet para a leitura posterior.
-    - codigo_trabalho: onde os testes foram rodados propriamente ditos, me aproveitei da estrutura de chunks já que poderia rodar chunks específicos em uma ordem específica. Ele provavelmente não vai rodar de primeira e se rodar irá demorar MUITO dependendo do computador (for loops lendo datasets de 30gb 10 vezes).
+    - codigo_testes e codigo_testes_julia: onde os testes foram rodados propriamente ditos, me aproveitei da estrutura de chunks já que poderia rodar chunks específicos em uma ordem específica. Ele provavelmente não vai rodar de primeira e se rodar irá demorar MUITO dependendo do computador (for loops lendo datasets de 30gb 10 vezes).
 
 3- ONDE OLHAR O RESULTADO FINAL? Entrar no arquivo analise_benchmark.qmd ou analise_benchmark.htlm em que foi feita a análise de todas as amostras geradas em codigo_trabalho.
 
@@ -13,10 +13,14 @@ Estruturamos dessa forma para maior facilidade tanto da execução dos testes ta
 
 4- Abaixo tem o link do drive que leva direto para os datasets (tanto csv quanto parquet)
 
+5- O github pages contém tudo de forma estruturada e organizada para maior facilidade.
+
 
 # 📊 Benchmark de Processamento de Dados: Pandas vs. Polars vs. R
 
 Este repositório contém os códigos e resultados de um estudo comparativo de performance entre as principais bibliotecas de manipulação de dados em Python e R. O objetivo é analisar velocidade de leitura, consumo de memória RAM e eficiência de armazenamento (CSV vs. Parquet) em um ambiente local (notebook).
+
+A ideia desse projeto era ser uma análise definitiva para entender, rodando localmente, como adaptar cada biblioteca de importação de dados no nosso cotidiano como estatísticos e cientistas de dados.
 
 ## 📂 Estrutura do Projeto
 
@@ -34,10 +38,11 @@ Para reproduzir os testes, organize seus arquivos da seguinte forma:
 │   └── ...
 │
 ├── codigo_transformar_dados.qmd # Script para converter os CSVs originais em Parquet
-├── codigo_trabalho.qmd          # Script principal que executa os benchmarks
+├── codigo_testes.qmd            # Script principal que executa os benchmarks (R e Python)
+├── testes_julia.qmd             # Scrips com testes dos benchmarks em JULIA
 ├── monitor_ram.py               # Script auxiliar para monitoramento de recursos em tempo real
 ├── MASTER_BENCHMARK_DATA.csv    # Tabela consolidada com todos os resultados finais
-├── analise_benchmark.qmd        # Contém a análise final e o relatório final das análises feitas
+├── analise_benchmark.qmd        # Contém a análise final e o relatório final das análises feitas (Python, R e Julia) MAIS IMPORTANTE
 └── README.md
 ```
 
@@ -60,6 +65,8 @@ Pré-requisitos
     Python 3.13+ (Bibliotecas: polars, pandas, pyarrow, numpy)
 
     R 4.4+ (Pacotes: readr, arrow, dplyr, glue)
+
+    Julia 1.2.0 
 
     Quarto (para renderizar e executar os arquivos .qmd)
 
