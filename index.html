@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Trabalho de Banco de Dados - Joaquim Nucci</title>
+  <style>
+    /* Estilo geral */
+    body {
+      font-family: 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #eef2f3, #d9e2ec);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    /* Cabeçalho */
+    header {
+      background-color: #004c97;
+      width: 100%;
+      padding: 30px 0;
+      text-align: center;
+      color: white;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2em;
+    }
+
+    header p {
+      margin-top: 8px;
+      font-size: 1.1em;
+      color: #cfe2ff;
+    }
+
+    /* Container principal */
+    main {
+      margin-top: 40px;
+      background-color: white;
+      padding: 30px 40px;
+      border-radius: 15px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 90%;
+      max-width: 700px;
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #004c97;
+      margin-bottom: 25px;
+    }
+
+    /* Aviso README */
+    .readme-alert {
+      background: linear-gradient(135deg, #d4edda, #c3e6cb);
+      border: 2px solid #155724;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 25px;
+      text-align: center;
+      color: #155724;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .readme-alert strong {
+      font-size: 1.1em;
+    }
+
+    .readme-alert a {
+      display: inline-block;
+      background-color: #155724;
+      color: white;
+      text-decoration: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 600;
+      margin-top: 10px;
+      transition: all 0.3s ease;
+    }
+
+    .readme-alert a:hover {
+      background-color: #0f4019;
+      transform: translateY(-2px);
+    }
+
+    /* Bloco de descrição */
+    .description-box {
+      background: linear-gradient(135deg, #e9f2ff, #f0f7ff);
+      border-radius: 10px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border-left: 5px solid #004c97;
+      box-shadow: 0 2px 8px rgba(0, 76, 151, 0.1);
+    }
+
+    .description-box h3 {
+      color: #004c97;
+      margin-top: 0;
+      margin-bottom: 20px;
+      text-align: left;
+      border-bottom: 2px solid #004c97;
+      padding-bottom: 10px;
+    }
+
+    .description-box p {
+      color: #333;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .description-box ul {
+      margin: 20px 0;
+      padding-left: 20px;
+      display: block;
+    }
+
+    .description-box li {
+      margin-bottom: 12px;
+      color: #555;
+      line-height: 1.5;
+    }
+
+    .description-box strong {
+      color: #004c97;
+    }
+
+    .step-number {
+      display: inline-block;
+      background-color: #004c97;
+      color: white;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 24px;
+      margin-right: 10px;
+      font-size: 0.9em;
+      font-weight: bold;
+    }
+
+    .warning-box {
+      background-color: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 15px 0;
+      color: #856404;
+    }
+
+    .warning-box strong {
+      color: #856404;
+    }
+
+    /* Layout em coluna única */
+    .single-column {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .section-box {
+      background-color: #f8fafc;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    h3 {
+      text-align: center;
+      color: #004c97;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e9f2ff;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 10px;
+    }
+
+    li {
+      margin: 0;
+    }
+
+    a {
+      display: block;
+      background-color: #e9f2ff;
+      color: #004c97;
+      text-decoration: none;
+      padding: 12px 15px;
+      border-radius: 10px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      font-size: 0.9em;
+    }
+
+    a:hover {
+      background-color: #004c97;
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    .repo-link {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 2px solid #e9f2ff;
+    }
+
+    .repo-link a {
+      display: inline-block;
+      padding: 12px 25px;
+      font-size: 1em;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: 0.9em;
+      color: #666;
+      text-align: center;
+    }
+
+    /* Responsividade */
+    @media (max-width: 600px) {
+      main {
+        padding: 20px;
+        width: 95%;
+      }
+      
+      ul {
+        grid-template-columns: 1fr;
+      }
+      
+      header h1 {
+        font-size: 1.7em;
+      }
+      
+      .description-box {
+        padding: 20px 15px;
+      }
+      
+      .readme-alert {
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ME315 - Trabalho de Banco de Dados</h1>
+    <p>Diego Pires Silva - RA: 239489/ Henry Koiti Honda - RA: 258141 / Joaquim Bertoldi Nucci - RA: 277177</p>
+  </header>
+
+  <main>
+    <!-- Aviso README -->
+    <div class="readme-alert">
+      <strong>📖 Leia o read.me para melhor explicação sobre utilização do repositório!</strong>
+      <br>
+      <a href="README.md" target="_blank">Acessar README.md</a>
+    </div>
+
+    <!-- Bloco de Descrição Atualizado -->
+    <div class="description-box">
+      <h3>📋 Guia do Projeto - Estrutura e Execução</h3>
+      
+      <p>O trabalho foi organizado em <strong>5 arquivos principais</strong> para facilitar o desenvolvimento e execução dos benchmarks de performance:</p>
+      
+      <ul>
+        <li>
+          <span class="step-number">1</span>
+          <strong>Transformação de Dados</strong><br>
+          Arquivo responsável pela conversão dos dados de CSV para Parquet, otimizando a leitura posterior dos datasets.
+        </li>
+        
+        <li>
+          <span class="step-number">2</span>
+          <strong>Código com testes</strong><br>
+          Código onde os testes de performance foram executados. Utilizamos a estrutura de chunks do Quarto para rodar seções específicas em ordem controlada.
+        </li>
+
+        <li>
+          <span class="step-number">3</span>
+          <strong>Monitor de RAM</strong><br>
+          Script auxiliar para monitoramento de recursos em tempo real
+        </li>
+
+        <li>
+          <span class="step-number">4</span>
+          <strong>Resultados Finais</strong><br>
+          Tabela consolidada com todos os resultados finais
+        </li>
+   
+        <li>
+          <span class="step-number">5</span>
+          <strong>Relatório</strong><br>
+          Análise final dos resultados e geração dos relatórios e visualizações.
+        </li>
+        
+        <li>
+          <span class="step-number">6</span>
+          <strong>Slides</strong><br>
+          Apresentação final dos resultados.
+        </li>
+      </ul>
+      
+      <p><strong>📁 Dados do Projeto:</strong><br>
+      Devido ao tamanho dos arquivos (datasets de ~30GB), os dados brutos não estão disponíveis no GitHub. Acesse os datasets processados através do link abaixo:</p>
+      
+      <div style="text-align: center; margin: 15px 0;">
+        <a href="https://drive.google.com/drive/u/2/folders/1-Si-q3Dhy9AUNdVEoqspdBTU1rQ9MZQT" 
+           style="display: inline-block; background-color: #004c97; color: white; padding: 10px 20px; border-radius: 8px; text-decoration: none; font-weight: bold;">
+          📂 Acessar Datasets no Google Drive
+        </a>
+      </div>
+    </div>
+    
+    <div class="single-column">
+      <!-- Seção 1: Arquivos do Trabalho -->
+      <div class="section-box">
+        <h3>📂 Arquivos do Trabalho</h3>
+        <ul>
+          <li><a href="desafio1_277177.html">Slides (HTML)</a></li>
+          <li><a href="desafio2_277177.html">Slides (QMD)</a></li>
+          <li><a href="analise_benchmark.html">Relatório (HTML)</a></li>
+          <li><a href="analise_benchmark.qmd">Relatório (QMD)</a></li>
+          <li><a href="monitor_ram.py">Monitor de RAM</a></li>
+          <li><a href="codigo_trabalho.qmd">Código com Testes</a></li>
+          <li><a href="codigo_transformar_dados.qmd">Transformação Dados</a></li>
+          <li><a href="MASTER_BENCHMARK_DATA.csv">Resultados Finais</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="repo-link">
+      <p><strong>🔗 Link do Repositório:</strong></p>
+      <a href="https://github.com/diegopiresss/dataframe-performance-benchmark.git" target="_blank">
+        Acessar Repositório no GitHub
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <!-- Rodapé vazio conforme solicitado -->
+  </footer>
+</body>
+</html>
